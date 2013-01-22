@@ -1,0 +1,401 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\institute[IWay Tech Talks]{IWay Tech Talks}
+
+\date[] {\today}
+
+\title[Tips para una presentaci\'on copada]{(Meta?) Iway Tech Talk: Tips para una presentaci\'on copada}
+\subtitle{}
+\author[]{Nicol\'as Brailovsky}
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{}
+
+
+\pgfdeclareimage[height=1cm]{pinocho}{pinocho}
+\pgfdeclareimage[height=4cm]{pinocho_big}{pinocho_big}
+\logo{\pgfuseimage{pinocho}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\begin{center} \pgfuseimage{pinocho_big} \end{center}
+	\rule{0em}{5pt}
+
+	\setbeamercolor{title}{fg=white,bg=teal}
+	\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+		\inserttitle
+	\end{beamercolorbox}
+
+	\begin{columns}[onlytextwidth]
+	\column{.5\textwidth}
+		\begin{center}
+			\pgfdeclareimage[height=1cm]{intraway}{intraway}
+			\pgfuseimage{intraway}
+		\end{center}
+	\column{.5\textwidth}
+		\begin{center} {\color{orange} \insertinstitute }  \end{center}
+	\end{columns}
+
+	\begin{center}
+		{\color{orange} 
+			\insertauthor \\
+			\rule{0em}{8pt}
+			\insertdate
+		}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\textit{Perfection is achieved, not when there is nothing left to add, \
+         but when there is nothing left to remove. }
+\begin{center}\textit{ -- Antoine de Saint-Exupery} \end{center}
+\end{frame}
+
+
+\section{Introducci\'on}
+
+% En internet hay un monton de informacion sobre como dar presentaciones, 
+% con muchos tips copados. Ademas hay un monton de gente que seguro sabe
+% mucho mas que yo del tema, con mucha mas practica dando presentaciones.
+% Que hacemos aca entonces? Mas importante, que hago yo aca adelante?
+% Primero, seguramente estemos aca porque soy un caradura. Pero tambien
+% estamos aca porque llevo un tiempo dando presentaciones y fui descubriendo
+% algunos tips que por ahi a alguien mas le pueden servir. Y mas importante
+% todavia, estamos aca porque seguramente muchos de ustedes tengan sus
+% propios tips, y estaria bueno que los compartan tambien\ldots
+\begin{frame}{Qu\'e tips?}
+\begin{columns}[onlytextwidth]
+\column{.35\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=4.5cm]{tron}{tron}
+        \pgfuseimage{tron}
+    \end{center}
+\column{.65\textwidth}
+    \begin{itemize}
+        \item La Internet tiene mucha info \ \bigskip
+        \item La Internet es aburrida \ \bigskip
+        \item y no queremos reinventar la rueda \ \bigskip
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+% Empecemos por decir que es lo que no vamos a ver. Hay demasiadas cosas
+% copiables y tips recontraconocidos. La idea es no ver ninguno de esos sino
+% pasar directamente a cosas un poco mas jugosas. Decia que no soy un experto
+% en el tema, pero despues de algunos a\~nos de dar presentaciones fui
+% recopilando algunos tips y guidelines interesantes para armar una presentacion.
+% La idea es compartir esos tips y, si se animan, que la audiencia comparta los
+% suyos.
+\begin{frame}{Qu\'e NO vamos a ver?}
+\begin{columns}[onlytextwidth]
+\column{.65\textwidth}
+    \begin{itemize}
+        \item Powerpoint templates \ \bigskip
+        \item LaTeX (esa charla la da Adri\'an) \ \bigskip
+        \item C\'omo copiar a Steve Jobs \ \bigskip
+        \item Todos los tips est\'andar\ldots
+    \end{itemize}
+\column{.35\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=4.5cm]{guitarra}{guitarra}
+        \pgfuseimage{guitarra}
+    \end{center}
+\end{columns}
+\end{frame}
+
+
+% Una parte bastante importante de las charlas suele ser la audiencia.
+% Hablar sin que nadie nos escuche puede ser considerado por algunos
+% como una conversaci\'on con alguien inteligente pero para otros es motivo
+% de traslado al borda. Qu\'e deber\'iamos considerar sobre nuestra
+% audiencia para una presentaci´on copada?
+\section{Sobre la audiencia}
+
+% Conocer la audiencia es importante. Principalmente para no hacer (mucho)
+% papel\'on. Por ejemplo, no estar\'ia bueno hablar de reposter\'ia en un curso de
+% CakePHP? (Ehh... solo a mi me paso?). Un punto importante sobre la audiencia
+% es la capacidad de atenci\'on. En general el tiempo efectivo de atenci\'on
+% no pasa de los 45 minutos, despues de eso la audiencia comienza a experimentar
+% alucinaciones por privacion sensorial.
+\begin{frame}{Tiempo de atenci\'on}
+\only<1> {
+    \begin{itemize}
+        \item Sea $A$ el tiempo de atenci\'on $ => A = K / t$ \ \bigskip
+        \item el tiempo efectivo es de 45 minutos! \ \bigskip
+        \item aunque para algunos es efectivamente cero\ldots
+    \end{itemize}
+} \only<2> {
+    \begin{center}
+        \pgfdeclareimage[height=7cm]{atencion_por_t}{atencion_por_t}
+        \pgfuseimage{atencion_por_t}
+    \end{center}
+}
+\end{frame}
+
+
+% Que podemos hacer para mejorar un poco este tiempo de atencion? La opcion
+% mas efectiva es eliminar todo tipo de distracciones. Atar a la audiencia a las
+% sillas, apagar las luces, usar un cuarto insonorizado, ese tipo de cosas.
+% Para los que disfrutan de los desafios, algo un poco menos efectivo pero mas
+% practico es mejorar la presentacion. El primer tip es agregar un soporte visual
+% interesante, algo para que la gente pueda distraer un poco la vista cuando se
+% cansan de escucharnos.
+\begin{frame}{Tiempo de atenci\'on}
+\begin{columns}[onlytextwidth]
+\column{.21\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{butterfly}{butterfly}
+        \pgfuseimage{butterfly}
+    \end{center}
+\column{.79\textwidth}
+    \begin{itemize}
+        \item Sea $A$ el tiempo de atenci\'on $ => A = f(|c|)$ \ \bigskip
+        \item Siendo $c$ = \{ fotos rid\'iculas de gatos \} \ \bigskip
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+% Que podemos hacer para maximir el tiempo de atencion, evitar aburrir a la
+% audiencia y disminuir las chances de que suban a youtube un video nuestro?
+% Una buena idea es el soporte visual. Las fotos de gatos son excelente.
+\begin{frame}{Mejorando el tiempo de atenci\'on: un ejemplo}
+\begin{center}
+\only<1> {
+    \pgfdeclareimage[height=5cm]{cat}{cat}
+    \pgfuseimage{cat}
+} \only<2> {
+    Ehm\ldots me refer\'ia a este tipo, pero tambi\'en sirve: \
+    \pgfdeclareimage[height=5cm]{realcat}{realcat}
+    \pgfuseimage{realcat}
+} \only<3> {
+    \pgfdeclareimage[height=7cm]{atencion_por_t_ej}{atencion_por_t_ej}
+    \pgfuseimage{atencion_por_t_ej}
+}
+\end{center}
+\end{frame}
+
+
+% Si bien el apoyo visual ayuda a mantener la atenci\'on, cuando el contenido
+% de la charla es vacio la atencion se pierde. Si bien hay excelentes vendedores
+% que son capaces, yo no puedo estar al frente de un auditorio contando el cuento
+% de la buena pipa. Que podemos hacer entonces para mejorar nuestro contenido?
+% (una vez que ya encontramos suficientes lolcats, claro)
+\begin{frame}{Tiempo de atenci\'on}
+\begin{center}
+    \textit{ Claro\ldots los gatitos ayudan\ldots si el contenido acompa\~na! }
+    \pgfdeclareimage[height=5cm]{invisiblecat}{invisiblecat}
+    \pgfuseimage{invisiblecat}
+\end{center}
+\end{frame}
+
+
+\section{Mejorando el contenido}
+
+
+% Hay varias formas de presentar el contenido de la charla para
+% mejorar la atenci\'on de la audiencia, pero en general se basan
+% todas en los mismos principios: generar expectativa en el oyente,
+% es decir, hacer que quien nos escucha se pregunte activamente
+% que es lo siguiente que vamos a decir, o generar conflicto, es decir
+% plantear una situacion que a la audiencia le resulta dificil de creer
+% y luego demostrar porque esto es cierto.
+\begin{frame}{Tips m\'agicos para el contenido}
+\begin{columns}[onlytextwidth]
+\column{.3\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{gandalf}{gandalf}
+        \pgfuseimage{gandalf}
+    \end{center}
+\column{.7\textwidth}
+    \begin{itemize}
+        \item Mejor contenido $=>$ m\'as atenci\'on \ \bigskip
+        \item Todos los tips se basan en lo mismo \ \bigskip \
+            \begin{itemize}
+                \item Expectativa \ \bigskip
+                \item Conflicto \ \bigskip
+                \item Sorpresa
+            \end{itemize}
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+% El factor sorpresa es un elemento importante para mantener la atencion
+% en las presentaciones y para peliculas de terror clase Z. Bien utilizado
+% nos permite agregar alguna situacion comica y prolongar un poco el tiempo
+% de atencion de la audiencia. Que hubiera pasado si el mismo chiste del gato
+% lo hacia durante una presentacion en la asociacion nacional feminista? Mal
+% utilizado, podemos ofender a mucha gente.
+\begin{frame}{Suprize!}
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+    \begin{itemize}
+        \item Sorpresa: mantiene la atenci\'on
+        \item recordemos el gr\'afico \ldots
+        \only<2> {
+            \item Se lo esperaban?
+            \item Hubiera tenido el mismo efecto?
+        }
+    \end{itemize}
+\column{.3\textwidth}
+    \begin{center}
+        \only<1> {
+            \pgfdeclareimage[height=3.5cm]{whoa}{whoa}
+            \pgfuseimage{whoa}
+        } \only<2> {
+            \pgfdeclareimage[height=4cm]{atencion_por_t_ej2}{atencion_por_t_ej}
+            \pgfuseimage{atencion_por_t_ej2}
+        }
+    \end{center}
+\end{columns}
+\end{frame}
+
+% A todos nos gustan las historias. Son una excelente forma de distraernos
+% un rato. Si la presentacion es aburrida, por ejemplo, la audiencia probable-
+% mente invente su propia historia, la cual, muy posiblemente, incluya asesinar
+% violentamente a quien habla. Para maximizar nuestras posibilidades de supervivencia
+% en vez de dejar que la audiencia invente su propia historia es mejor proveerles una.
+% Asi sea un ejemplo, como el de Alice y Bob usado para explicar como funcionan
+% las claves publicas y privadas, un ejemplo tangencialmente relacionado o un caso
+% practico, las historias sirven para darle un hilo narrativo a nuestra presentaci\'on.
+% Por nuestra naturaleza humana, no importa que tan tonta sea la historia, vamos a estar
+% inclinados a escuchar hasta el final, solo para enterarnos como termina (a menos que
+% sea un capitulo de star wars, en ese caso no aplica).
+% Si bien no siempre es posible aplicar este tip funciona muy bien de la siguiente forma:
+% se presenta un problema, real o no y se desarrolla, junto con la explicaci\'on de
+% un tema, la solucion al problema.
+\begin{frame}{Usar historias}
+\begin{itemize}
+    \item Estudiar criptograf\'ia es divertido\ldots gracias a Alice y Bob!
+    \item Nos permite darle un hilo narrativo a la charla
+    \item Siempre genera intriga
+\end{itemize}
+
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{alice}{alice}
+        \pgfuseimage{alice}
+    \end{center}
+\column{.5\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{bob}{bob}
+        \pgfuseimage{bob}
+    \end{center}
+\end{columns}
+\end{frame}
+
+
+% Alguna vez escucharon "yo no lo vote?". Algunos dicen que es por verguenza,
+% otros dicen que es porque tenemos cierta tendencia a relacionarnos con
+% gente que se nos parece. Esto es por algo muy simple: por lo general nos gusta
+% escuchar lo que ya sabemos! (Como dice la vieja frase: dios los cria, ellos se juntan)
+% Cuando escuchamos algo que ya sabemos estamos validando nuestro conocimiento
+% Una tecnica para dar presentaciones es partir de una base conocida por todos
+% y desarrollar partes mas complejas del tema a partir de esta base
+\begin{frame}{Es ovbio!}
+\textit{ En general, nos gusta escuchar cosas que ya sabemos\ldots } \
+\textit{ Por qu\'e?}
+\only<2> {
+    \begin{itemize}
+        \item No es por tontos
+        \item Ni es por vagos
+        \item Nos gusta tener raz\'on
+        \item y validar nuestros conocimientos
+    \end{itemize}
+}
+
+\only<1> {
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{ovbious}{ovbious}
+        \pgfuseimage{ovbious}
+    \end{center}
+} \only<2> {
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{dumb}{dumb}
+        \pgfuseimage{dumb}
+    \end{center}
+}
+\end{frame}
+
+
+% Dar vueltas sobre lo mismo tarde o temprano cansa. Para evitar esto lo mejor
+% es tener un objetivo claro. Tener en claro de que se va a tratar la charla
+% nos permite darnos cuenta si estamos cubriendo mucho (y deberiamos hacer dos
+% presentaciones en vez de una, una especie de god object pero de charlas) o 
+% si tenemos una charla que no tiene fuerza, le falta sopa. Ademas tener
+% un objetivo claro permite que la audiencia sepa que va a escuchar, no llevarse
+% sorpresas innecesarias. A nadie le gustaria, por ejemplo, que yo anuncie un
+% evento sobre gatos, y nos vayamos todos a un gaterio... bueh, mal ejemplo ese,
+% pero seguro captan la idea.
+% Como transmitimos el objetivo de la charla? Facil, por medio de un resumen. Una
+% linea y una imagen, nada mas. Si eso no alcanza para captar la atencion de alguien
+% probablemente haya que repensar de que se va a tratar el evento!
+\begin{frame}{Zippear la charla}
+\textit{ Si hay poca atenci\'on no hay tiempo que perder! }
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+    \begin{itemize}
+        \item Hay un objetivo claro?
+        \item Es resumible en una frase?
+        \item Tiene una imagen caracter\'istica?
+    \end{itemize}
+\column{.3\textwidth}
+    \begin{center}
+        \pgfdeclareimage[height=3.5cm]{compress}{compress}
+        \pgfuseimage{compress}
+    \end{center}
+\end{columns}
+else \ldots \alert{ goto } 0
+\end{frame}
+
+% En la misma linea de la sorpresa y contrapuesto a la idea de repetir cosas ya
+% sabidas, los cliffhangers, ademas de ser una forma barata de enganchar a senoras 
+% cincuentonas con la novela de las 3, son una ayuda adicional para dar una base
+% solida a una charla. La idea de un cliffhanger es dejar al que nos escucha 
+% pensando (pude no aplicar para todas las audiencias).
+\begin{frame}{Cliffhangers}
+\end{frame}
+
+% Cuando el tiempo es poco es importante organizar el contenido segun la curva de
+% atencion. Si, como ya estamos terminando eso implica que este es el tip mas
+% aburrido de todos los que tenia en la lista de tips.
+\begin{frame}{Organizar el contenido}
+\end{frame}
+
+\begin{frame}{??}
+\end{frame}
+
+\end{document}
