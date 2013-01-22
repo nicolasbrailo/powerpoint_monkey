@@ -1,0 +1,435 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\institute[BoC Tech Talks]{BoC Tech Talks}
+
+\date[] {\today}
+
+\title[SQL from scratch]{SQL from scratch}
+\subtitle{}
+\author[]{Nicol\'as Brailovsky}
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{}
+
+
+\pgfdeclareimage[height=5cm]{squirrel_overdose}{squirrel_overdose}
+\pgfdeclareimage[height=1cm]{squirrel_hat}{squirrel_hat}
+\pgfdeclareimage[height=4cm]{squirrel_hat_big}{squirrel_hat_big}
+\logo{\pgfuseimage{squirrel_hat}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\begin{center} \pgfuseimage{squirrel_overdose} \end{center}
+	\rule{0em}{5pt}
+
+	\setbeamercolor{title}{fg=white,bg=teal}
+	\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+		\inserttitle
+	\end{beamercolorbox}
+
+	\begin{columns}[onlytextwidth]
+	\column{.5\textwidth}
+		\begin{center}
+			\pgfdeclareimage[height=1cm]{boc}{boc}
+			\pgfuseimage{boc}
+		\end{center}
+	\column{.5\textwidth}
+		\begin{center} {\color{orange} \insertinstitute }  \end{center}
+	\end{columns}
+
+	\begin{center}
+		{\color{orange} 
+			\insertauthor \\
+			\rule{0em}{8pt}
+			\insertdate
+		}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\textit{Oh, yes. Little Bobby tables we call him.} \bigskip
+\begin{center}\textit{ -- XKCD} \end{center}
+\end{frame}
+
+\section{Introducci\'on}
+
+% SQL tiene sus raices en Prolog, lenguaje declarativo (no procedural).
+% Desarrollado en la decada del 70 y popularizado por Relational Software (Oracle!) sobre la base del trabajo de Codd y Companía: la normalización.
+% Con el tiempo un lenguaje de progamación fue creciendo un tanto organicamente y se transformo en lo que hoy en dia es TransactSQL o similares.
+\begin{frame}{Historia}
+	Structured Query Language:
+	\begin{itemize}
+		\item Es un hijo de\ldots Prolog (Prolog -> Datalog -> SQL)
+		\item Es declarativo
+		\item Despu\'es se agreg\'o un hack procedural. Se llama PLSQL.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Motores}
+SQL es una opci\'on entre muchas \bigskip
+\begin{tabular}{ | l | c | r | } \hline
+\alert{Big hashmap} & \alert{Object DB} & \alert{RDBMS} \\ \hline
+Berkeley DB (Ahora Oracle)&Gemstone&MySQL (Ahora Oracle)\\ \hline
+Mongo DB (En serio)&Db4O&PostgreSQL\\ \hline
+\end{tabular}
+\begin{center}
+\pgfdeclareimage[height=3cm]{alvin_y_las_ardillas}{alvin_y_las_ardillas}
+\pgfuseimage{alvin_y_las_ardillas}
+\end{center}
+\end{frame}
+
+
+\section{SQL en serio}
+
+
+%  DML es lo que vamos a usar el 99% del tiempo. Son los inserts, 
+% deletes y updates. El DDL define la estructura de una tabla, 
+% los índices, las PKs, FKs, etc. Vamos a hablar mas que nada del 
+% DML porque es una charla orientada al desarrollo (y porque de DDL 
+% no se nada, pero no se lo digan a nadie).
+\begin{frame}{DML vs DDL}
+Hay dos tipos de sentencias SQL:
+\begin{center}
+\begin{tabular}{ | c | c | } \hline
+\alert{DML} & \alert{DDL} \\ \hline
+\alert{Data Manipulation Language} & \alert{Data Definition Language} \\ \hline
+Consultas a los datos&Metadata, definici\'on de datos \\ \hline
+Bastante est\'andar&Rez\'a por tener un buen manual \\ \hline
+No debugeable&No debugeable \\ \hline
+\end{tabular}
+\end{center}
+\only<2>{ Vamos a usar DMLs el 99\% del tiempo }
+\end{frame}
+
+
+\begin{frame}{DMLs}
+	Hay cuatro tipos de DMLs:
+	\begin{columns}[onlytextwidth]
+	\column{.5\textwidth}
+		\begin{itemize}
+			\item DELETE
+			\item INSERT
+			\item UPDATE
+			\item SELECT
+		\end{itemize}
+	\column{.5\textwidth}
+		\pgfdeclareimage[height=4cm]{squirrel-small}{squirrel-small}
+		\pgfuseimage{squirrel-small}
+	\end{columns}
+\end{frame}
+
+
+\begin{frame}{Deletes}
+Es el m\'as simple:
+	\begin{columns}[onlytextwidth]
+	\column{.8\textwidth}
+	\begin{itemize}
+		\item DELETE FROM tabla WHERE condicion
+	\end{itemize}
+	\column{.2\textwidth}
+		\pgfdeclareimage[height=4cm]{iceage}{iceage}
+		\pgfuseimage{iceage}
+	\end{columns}
+\alert{Tip: primero el where, despu\'es el delete.} \only<2>{\alert{Si, por experiencia.} }
+\end{frame}
+
+
+\begin{frame}[t]{Where}
+Los where tambi\'en son simples
+\begin{itemize}
+	\item WHERE (condiciones)
+	\item Las condiciones son booleans
+	\item WHERE x=1 AND (y=2 OR z=3)
+\end{itemize}
+\textit{Tip:} El elemento neutro ahorra c\'odigo.\only<2>{ Un ejemplo? }
+\only<3,4>{
+		\begin{itemize}
+			\item WHERE false OR (x=4 AND z=2) OR (x=42 AND z=42)
+			\item WHERE user\_id IN (NULL, 1, 2, 3);
+		\end{itemize}
+	}
+\only<4>{
+		\begin{center}
+		\pgfdeclareimage[height=3cm]{taliban}{taliban}
+		\pgfuseimage{taliban}
+		\end{center}
+	}
+\end{frame}
+
+
+\begin{frame}{Updates}
+Es el segundo m\'as simple:
+	\begin{columns}[onlytextwidth]
+	\column{.8\textwidth}
+	\begin{itemize}
+		\item UPDATE tabla SET key=val WHERE condicion
+	\end{itemize}
+	\column{.2\textwidth}
+		\pgfdeclareimage[height=4cm]{iceage}{iceage}
+		\pgfuseimage{iceage}
+	\end{columns}
+\alert{Tambi\'en sirve: primero el where, despu\'es el delete.}
+\end{frame}
+
+
+\begin{frame}{Insert}
+Es el tercero m\'as simple (?). Ahora hay algunas variaciones:
+\begin{itemize}
+	\item INSERT INTO tabla (col1, col2) VALUES (val1, val2); \\
+		\only<2,3,4>{
+			\begin{itemize}
+				\item No importa el orden
+				\item Puede estar incompleto
+			\end{itemize}
+		}
+	\item INSERT INTO tabla VALUES (val1, val2); \\
+		\only<3,4>{
+			\begin{itemize}
+				\item Importa el orden
+				\item No puede estar incompleto
+			\end{itemize}
+		}
+	\item INSERT INTO tabla SELECT (WTF!?) \\
+		\only<4>{
+			\begin{itemize}
+				\item Ehh... lo vemos despu\'es
+			\end{itemize}
+		}
+\end{itemize}
+\only<1>{\textit{Esta vez no hay tip loco}}
+\end{frame}
+
+\begin{frame}{Insert II}
+Otra variaci\'on m\'as:
+\begin{semiverbatim}
+	INSERT INTO tabla (col1, col2) VALUES
+							(val1, val2), 
+							(bal1, bal2), 
+							(wal1, wal2);
+\end{semiverbatim}
+\only<1>{\textit{Disminuye la carga en la DB!}}
+\end{frame}
+
+
+\begin{frame}{Select}
+\begin{center}Es un bardo. Posta. Sirve para traer datos. Si, en serio. \end{center}
+\only<1>{En su forma APB: }
+\only<2>{O en su forma Oracle APB: }
+\only<3>{Usando una funci\'on}
+\begin{itemize}
+	\item SELECT 42
+	\only<2,3>{\item SELECT 42 FROM DUAL (Gracias Oracle!)}
+	\only<3>{\item SELECT NOW()}
+\end{itemize}
+\begin{center} \pgfuseimage{squirrel_overdose} \end{center}
+\end{frame}
+
+
+\begin{frame}{Select de verdad}
+\begin{semiverbatim}SELECT * FROM users\end{semiverbatim}
+\only<2>{
+	Si tenemos estos datos...
+	\begin{semiverbatim}INSERT INTO USERS (name, age) VALUES\end{semiverbatim}
+	\begin{semiverbatim}('Bart',10), ('Lisa',8),\end{semiverbatim}
+	\begin{semiverbatim}('Maggie',2), ('Carl', 40);\end{semiverbatim}
+	\begin{semiverbatim}INSERT INTO RELATIONSHIPS (user1\_id, user2\_id, related) \end{semiverbatim}
+	\begin{semiverbatim}VALUES (1, 2, 'Hermanos'), (1,3, 'Hermanos'), \end{semiverbatim}
+	\begin{semiverbatim}(2,1, 'Hermanos'), (2,3, 'Hermanos'),\end{semiverbatim}
+	\begin{semiverbatim}(3,1, 'Hermanos'),(3,2, 'Hermanos');\end{semiverbatim}
+}
+\end{frame}
+
+\begin{frame}{Select de verdad II}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\begin{semiverbatim}SELECT * \end{semiverbatim}
+	\begin{semiverbatim}FROM users\end{semiverbatim}
+	\begin{semiverbatim}WHERE age < 10\end{semiverbatim}
+\column{.5\textwidth}
+	\begin{center}
+	\pgfdeclareimage[height=2cm]{q1}{q1}
+	\pgfuseimage{q1}
+	\end{center}
+\end{columns}
+\end{frame}
+
+
+\section{Ahora s\'i la complicamos}
+
+
+
+\begin{frame}[t]{Select de verdad III}
+\textit{C\'omo encontramos todos los usuarios y sus hermanos?}
+\only<2>{
+	\begin{semiverbatim}SELECT * \end{semiverbatim}
+	\begin{semiverbatim}FROM users \alert{Usr1}\end{semiverbatim}
+	\begin{semiverbatim}INNER JOIN \alert{relationships Rel}\end{semiverbatim}
+	\begin{semiverbatim} \alert{ ON Rel.user1\_id = Usr1.id}\end{semiverbatim}
+	\begin{semiverbatim} \alert{WHERE related = 'Hermanos'}\end{semiverbatim}
+}\only<3>{
+	\begin{center}
+	\pgfdeclareimage[height=4cm]{q2}{q2}
+	\pgfuseimage{q2}
+	\end{center}
+}
+\only<3>{\textit{C\'omo nos traemos el nombre del otro hermano?}}
+\end{frame}
+
+
+\begin{frame}{Select de verdad IV}
+\begin{itemize}
+	\item \textit{C\'omo encontramos todos los usuarios y sus hermanos?}
+	\item \textit{C\'omo nos traemos el nombre del otro hermano?}
+\end{itemize}
+\only<2>{
+	\begin{semiverbatim}SELECT Usr1.name, Usr2.name \end{semiverbatim}
+	\begin{semiverbatim}FROM users Usr1\end{semiverbatim}
+	\begin{semiverbatim}INNER JOIN relationships Rel\end{semiverbatim}
+	\begin{semiverbatim}ON Rel.user1\_id = Usr1.id\end{semiverbatim}
+	\begin{semiverbatim}\alert{INNER JOIN users Usr2}\end{semiverbatim}
+	\begin{semiverbatim} \alert{ ON Rel.user2\_id = Usr2.id}\end{semiverbatim}
+	\begin{semiverbatim}WHERE related = 'Hermanos'\end{semiverbatim}
+}\only<3>{
+	\begin{center}
+	\pgfdeclareimage[height=4cm]{q3}{q3}
+	\pgfuseimage{q3}
+	\end{center}
+}
+\end{frame}
+
+
+\begin{frame}{Select de verdad IV'}
+	\begin{center}
+		\textquestiondown Qu\'e pasa si yo quer\'ia TODOS los usuarios? \\
+		\textquestiondown A d\'onde fue Carl? \\
+		\pgfdeclareimage[height=5cm]{fail}{fail}
+		\pgfuseimage{fail}
+	\end{center}
+\end{frame}
+
+
+\begin{frame}{Select de verdad IV}
+\only<1>{
+	\begin{semiverbatim}SELECT Usr1.name, Usr2.name \end{semiverbatim}
+	\begin{semiverbatim}FROM users Usr1\end{semiverbatim}
+	\begin{semiverbatim}\alert{LEFT} JOIN relationships Rel\end{semiverbatim}
+	\begin{semiverbatim}ON Rel.user1\_id = Usr1.id\end{semiverbatim}
+	\begin{semiverbatim}\alert{LEFT} JOIN users Usr2 ON Rel.user2\_id = Usr2.id\end{semiverbatim}
+}\only<2>{
+	\begin{center}
+	\pgfdeclareimage[height=4cm]{q4}{q4}
+	\pgfuseimage{q4}
+	\end{center}
+}
+\end{frame}
+
+\begin{frame}{Select de verdad V}
+	\begin{center}
+		\textquestiondown Y si quiero traer s\'olo cu\'antos hermanos tienen?
+		\pgfdeclareimage[height=5cm]{carl}{carl}
+		\pgfuseimage{carl}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Select de verdad V}
+\only<1>{
+	\begin{semiverbatim}SELECT Usr1.name, \alert{count(1) AS Hermanos} \end{semiverbatim}
+	\begin{semiverbatim}FROM users Usr1\end{semiverbatim}
+	\begin{semiverbatim}LEFT JOIN relationships Rel\end{semiverbatim}
+	\begin{semiverbatim}ON Rel.user1\_id = Usr1.id\end{semiverbatim}
+	\begin{semiverbatim}LEFT JOIN users Usr2 ON Rel.user2\_id = Usr2.id\end{semiverbatim}
+	\begin{semiverbatim}\alert{GROUP BY Usr1.id}\end{semiverbatim}
+}\only<2>{
+	\begin{center}
+	\pgfdeclareimage[height=4cm]{q5}{q5}
+	\pgfuseimage{q5}
+	\end{center}
+}
+\textit{Cuidado, COUNT+LEFT JOIN = cosas raras}
+\end{frame}
+
+
+\begin{frame}{Select de verdad VI}
+	\begin{center}
+		El GROUP tiene su WHERE, pero se llama HAVING
+		\pgfdeclareimage[height=5cm]{squirrel_overdose}{squirrel_overdose}
+		\pgfuseimage{squirrel_overdose}
+	\end{center}
+\end{frame}
+
+\begin{frame}{Select de verdad VI}
+\begin{semiverbatim}SELECT Usr1.name, COUNT(1) AS Hermanos \end{semiverbatim}
+\begin{semiverbatim}FROM users Usr1\end{semiverbatim}
+\begin{semiverbatim}LEFT JOIN relationships Rel\end{semiverbatim}
+\begin{semiverbatim}ON Rel.user1\_id = Usr1.id\end{semiverbatim}
+\begin{semiverbatim}LEFT JOIN users Usr2 ON Rel.user2\_id = Usr2.id\end{semiverbatim}
+\begin{semiverbatim}GROUP BY Usr1.id\end{semiverbatim}
+\begin{semiverbatim}\alert{HAVING COUNT(1) > 1}\end{semiverbatim}
+\end{frame}
+
+\begin{frame}{Select de verdad VII, s\'olo para complicarla}
+\begin{semiverbatim}SELECT Usr1.name, COUNT(1) AS Hermanos \end{semiverbatim}
+\begin{semiverbatim}FROM users Usr1\end{semiverbatim}
+\begin{semiverbatim}LEFT JOIN relationships Rel\end{semiverbatim}
+\begin{semiverbatim}ON Rel.user1\_id = Usr1.id\end{semiverbatim}
+\begin{semiverbatim}LEFT JOIN users Usr2 ON Rel.user2\_id = Usr2.id\end{semiverbatim}
+\begin{semiverbatim}GROUP BY Usr1.id\end{semiverbatim}
+\begin{semiverbatim}HAVING COUNT(1) > 1\end{semiverbatim}
+\begin{semiverbatim}\alert{ORDER BY Usr1.name LIMIT 3}\end{semiverbatim}
+\end{frame}
+
+\section{Misc}
+\begin{frame}{COALESCE, NVL, IFNULL}
+\begin{itemize}
+	\item Son lo mismo pero cambia seg\'un el motor
+	\item Es un if trucho
+	\item IFNULL(A, B) <=> A!=NULL? A : B
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Unions}
+\end{frame}
+
+\begin{frame}{Joins raros}
+\end{frame}
+
+\begin{frame}{Subqueries}
+\end{frame}
+
+\end{document}
