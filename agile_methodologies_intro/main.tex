@@ -1,0 +1,410 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\institute[Universidad Tecnol\'ogica Nacional]
+{Universidad Tecnol\'ogica Nacional \\ Facultad Regional Buenos Aires \\ Dise\~no de Sistemas}
+
+\date[] {\today}
+
+\title[Metodolog\'ias \'Agiles]{Introducci\'on a las Metodolog\'ias \'Agiles}
+\subtitle{}
+\author[]
+{
+  Nicol\'as Brailovsky
+%  \and 
+%  ???
+}
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{Metodolog\'ias \'Agiles}
+
+\pgfdeclareimage[height=0.5cm]{university-logo}{logo-utn}
+\pgfdeclareimage[height=1.2cm]{university-logo-big}{logo-utn}
+\logo{\pgfuseimage{university-logo}}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \begin{columns}[onlytextwidth]
+  \column{.8\textwidth}
+      \insertinstitute
+  \column{.2\textwidth}
+    \begin{flushright} \pgfuseimage{university-logo-big} \end{flushright}
+  \end{columns}
+  \rule{0em}{25pt}
+
+  \setbeamercolor{title}{fg=white,bg=teal}
+  \begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+    \inserttitle
+  \end{beamercolorbox}
+  \par
+  \rule{0em}{20pt}
+
+  \begin{center}
+    \insertauthor \\
+    \rule{0em}{8pt}
+    \insertdate
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+
+\section{\textquestiondown Qu\'e es una metodolog\'ia?}
+
+\begin{frame}{}
+\textquestiondown Qu\'e es una metodolog\'ia \ldots
+\begin{itemize}
+  \item en general?
+  \item aplicada al desarrollo de software?
+  \item \'agil?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{}
+\pgfdeclareimage[height=4cm]{traditional-methodology}{traditional-methodology}
+\begin{center}
+\pgfuseimage{traditional-methodology}
+\end{center}
+\end{frame}
+
+\begin{frame}{\textquestiondown Para qu\'e?}
+\textit{En las metodolog\'ias "pesadas" el desarrollo de software se ve}
+\begin{itemize}
+  \item como un proceso de manufactura
+  \item predecible y estable
+  \item estructurado en forma r\'igida
+\end{itemize}
+\textit{Resultados}
+\begin{itemize}
+  \item Productos de poca calidad
+  \item Proyectos inestables
+  \item Problemas de motivaci\'on en el equipo
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textquestiondown Qu\'e es una metodolog\'ia \'agil?}
+\pgfdeclareimage[height=3.5cm]{dilbert-agile}{dilbert-agile}
+\begin{center}
+\pgfuseimage{dilbert-agile}
+\end{center}
+\begin{flushright}\begin{color}{green}
+  // TODO: Pedirle a Scott que nos deje usar esta imagen
+\end{color}\end{flushright}
+\end{frame}
+
+
+
+\section{Metodolog\'ias \'Agiles}
+
+\begin{frame}{Manifesto \'Agil}
+\begin{itemize}
+  \item Individuos e interacciones $>$ procesos y herramientas
+  \item Software en funcionamiento $>$ documentaci\'on comprehensiva
+  \item Colaboraci\'on del cliente $>$ la negociaci\'on de un contrato
+  \item Responder al cambio $>$ seguir un plan
+\end{itemize}
+\begin{flushright}
+  \htmladdnormallink{agilemanifesto.org}{http://agilemanifesto.org}
+\end{flushright}
+\end{frame}
+
+\begin{frame}{Manifesto \'Agil}
+\textit{El "software en funcionamiento" es solo parte de los entregables}
+\begin{itemize}
+  \item \textquestiondown Qu\'e otros entregables existen?
+  \item Un manual de usuario, o la documentaci\'on de una API, \\
+        \begin{itemize}
+                \item \textquestiondown son entregables?
+                \item \textquestiondown son software en funcionamiento?
+        \end{itemize}
+\end{itemize}
+\textit{Se puede clasificar la documentaci\'on como hist\'orica y para soporte del proceso}
+\begin{itemize}
+  \item \textquestiondown A cu\'al se refiere el manifesto?
+  \item \textquestiondown Sin documentaci\'on comprehensiva == No documentar?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Distintos enfoques}
+\begin{itemize}
+  \item SCRUM
+  \item XP, Extreme Programming
+  \item Lean Software Development
+  \item Crystal
+\end{itemize}
+\end{frame}
+
+
+
+\section{Scrum}
+
+\begin{frame}{Introducci\'on}
+\begin{itemize}
+  \item Metodolog\'ia iterativa y adaptativa al proyecto
+  \item Centrado en la gesti\'on del proyecto
+  \item Gestiona requerimientos y tiempos de entrega
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Gu\'ia del proyecto}
+\pgfdeclareimage[height=6cm]{scrum-project}{scrum-project}
+\begin{center}
+\pgfuseimage{scrum-project}
+\end{center}
+\end{frame}
+
+\begin{frame}{Sprint}
+\textit{Un proceso guiado por Scrum se basa en una serie de sprints}
+\begin{itemize}
+        \item Ciclo corto (2 o 3 semanas)
+        \item Involucra a stakeholders, el equipo de desarrollo y un Scrum master
+        \item Los stakeholders, con el grupo, crean y priorizan una lista de requerimientos
+        \item La lista priorizada de requerimientos para el proyecto se llama product backlog
+        \item La misma lista para el sprint es el sprint backlog
+        \item El equipo se compromete a cumplir una determinada cantidad de RQs por sprint
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Sprint}
+\begin{itemize}
+        \item La cantidad de historias por sprint determina la velocidad del equipo
+        \item La velocidad del equipo sirve para estimar el siguiente sprint backlog
+        \item La velocidad se basa en datos hist\'oricos: no es una estimaci\'on
+        \item La velocidad no se mide, necesariamente, en unidades de tiempo
+        \item Todos cometemos errores al estimar pero, estad\'isticamente, el error es consistente
+        \item La estimaci\'on se puede realizar con un juego de estimaci\'on
+        \item Al final del sprint debe existir un entregable con valor para los stakeholders
+\end{itemize}
+\end{frame}
+
+
+
+\section{XP}
+
+\begin{frame}{Introducci\'on}
+\begin{columns}
+\column{.5\textwidth}
+  \begin{itemize}
+    \item Mejores pr\'acticas
+    \item Orientado al d\'ia a d\'ia
+    \item \'Enfasis en el testing
+    \item Nombre marketinero (?)
+  \end{itemize}
+\column{.5\textwidth}
+  \pgfdeclareimage[height=4cm]{xp-intro}{xp-intro}
+  \begin{center}\pgfuseimage{xp-intro}\end{center}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Gu\'ia de proyecto}
+\pgfdeclareimage[height=4cm]{xp-project}{xp-project}
+\begin{center}
+\pgfuseimage{xp-project}
+\end{center}
+\end{frame}
+
+\begin{frame}{Principios}
+\textit{XP basa sus pr\'acticas en}
+\begin{itemize}
+        \item Comunicaci\'on, Feedback, Simplicidad, Valor, Respeto
+\end{itemize}
+\textit{Se adapta a proyectos con}
+\begin{itemize}
+        \item requerimientos inestables
+        \item alto riesgo
+        \item equipos con poca experiencia
+        \item equipos chicos
+\end{itemize}
+Una de las inovaciones de XP es integrar al testing como parte del proceso y no como tarea de soporte
+\end{frame}
+
+\begin{frame}{Pr\'acticas}
+\begin{itemize}
+        \item Las historias de usuario sirven para crear test de aceptaci\'on y para estimar
+        \item Entregables en ciclos cortos en incrementos peque\~nos
+        \item Propiedad colectiva del c\'odigo / Rotaci\'on interna del equipo
+        \item Pair programming
+        \item El cliente siempre est\'a disponible
+        \item Testing antes de codificar (TDD/BDD)
+        \item Integraci\'on continua
+        \item Refactor and consolidate
+        \item KISS
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Pr\'acticas}
+\pgfdeclareimage[height=6cm]{xp-practices}{xp-practices}
+\begin{center}
+\pgfuseimage{xp-practices}
+\end{center}
+\end{frame}
+  
+
+\subsection{Test Driven Development}
+
+\begin{frame}{Introducc\'ion}
+TDD: Una de las pr\'acticas mas inovadoras de XP
+\textquestiondown Para qu\'e escribir tests?
+\begin{itemize}
+          \item Reutilizaci\'on de c\'odigo $\Rightarrow$ bueno
+          \item Tocar en un lado y que explote todo $\Rightarrow$ malo
+\end{itemize}
+Los tests son una forma de asegurar que la interfaz del m\'odulo no cambia.
+Adem\'as:
+\begin{itemize}
+        \item Es una forma de documentar las historias de usuario
+        \item No solo documenta, sirve como ejemplo!
+        \item Incrementa la confianza en la fiabilidad del sistema
+        \item Obliga al programador a pensar antes de codificar
+        \item El trabajo termina una vez que todos los tests pasan
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Metodolog\'ia de trabajo}
+La metodolog\'ia de trabajo en TDD se conoce como "Red - Green - Refactor"
+\begin{itemize}
+        \item Escribir tests como especificaci\'on de un comportamiento
+        \item Correr los tests; ver como fallan
+        \item Implementar c\'odigo
+        \item Cuando los tests pasan (est\'an en verde) el desarrollo est\'a completo
+        \item Ahora se puede refactorizar el c\'odigo, sin miedo a romper nada
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Behaviour Driven Development}
+Utilizando TDD
+\begin{itemize}
+        \item se puede detectar una falla con el mismo cambio que la provoca
+        \item se pretende definir comportamiento, no solo verificar la estructura del c\'odigo
+\end{itemize}
+Esto se conoce como "BDD", Behaviour Driven Development: definir el comportamiento del sistema a partir de un test.
+\begin{itemize}
+        \item Con TDD/BDD los tests deben correr en un tiempo razonable, es decir, se deben utilizar tests unitarios (no de integraci\'on!)
+\end{itemize}
+\end{frame}
+
+\subsection{Integraci\'on Continua}
+
+\begin{frame}[t]
+  \frametitle{Introducci\'on}
+\begin{center}
+  En sistemas grandes el esfuerzo se divide en componentes, equipos, etc.
+  \textquestiondown Qu\'e pasa al intentar integrar todas las partes?
+  \pgfdeclareimage[height=4cm]{nuclear}{nuclear}
+  \pgfuseimage<2>{nuclear}
+\end{center}
+\end{frame}
+
+\begin{frame}{Pr\'acticas}
+\begin{itemize}
+        \item La \'ultima versi\'on del repositorio SIEMPRE compila \footnote{ Pr\'actica de XP: Quien rompa el build deber\'a traer facturas }
+        \item Los test de integraci\'on no deben tardar mas de 5 minutos
+        \item Permite detectar errores de integraci\'on minutos (~5) despu\'es del commit que lo caus\'o
+\end{itemize}
+
+\end{frame}
+
+% All of the following is optional and typically not needed. 
+\appendix
+\section<presentation>*{\appendixname}
+\subsection<presentation>*{Lectura adicional}
+
+\begin{frame}[allowframebreaks]
+  \frametitle<presentation>{Lectura Adicional}
+    
+  \begin{thebibliography}{10}
+    
+  \beamertemplatebookbibitems
+  \bibitem{PRESS}
+    Pressman, Roger
+    \newblock {\em Ingenier\'ia del Software: Un enfoque Pr\'actico}.
+    \newblock Mc Graw Hill.
+
+    
+  \bibitem{DUVALL07}
+    Duvall, Paul et al.
+    \newblock {\em Continuous Integration}.
+    \newblock Addison Wesly, 2007
+
+  \beamertemplatearticlebibitems
+%  \beamertemplatearticlebibitems
+%  \bibitem{Someone2000}
+%    S.~Someone.
+%    \newblock On this and that.
+%    \newblock {\em Journal of This and That}, 2(1):50--100,
+%    2000.
+
+  \bibitem{agilemanifesto}
+    Agile Manifesto
+    \newblock \htmladdnormallink{http://agilemanifesto.org}{http://agilemanifesto.org}
+
+  \beamertemplatearticlebibitems
+  \bibitem{XP-Homepage}
+    Extreme Programming: A Gentle Introduction
+    \newblock \htmladdnormallink{http://www.extremeprogramming.org/}{http://www.extremeprogramming.org/}
+
+  \beamertemplatearticlebibitems
+  \bibitem{FOW1}
+    Martin Fowler
+    \newblock The New Methodology
+    \newblock \htmladdnormallink{http://www.martinfowler.com/articles/newMethodology.html}{http://www.martinfowler.com/articles/newMethodology.html}
+
+  \beamertemplatearticlebibitems
+  \bibitem{FOW2}
+    Martin Fowler
+    \newblock Continuous Integration
+    \newblock \htmladdnormallink{http://www.martinfowler.com/articles/continuousIntegration.html}{http://www.martinfowler.com/articles/continuousIntegration.html}
+
+  \beamertemplatearticlebibitems
+  \bibitem{FOW3}
+    Martin Fowler
+    \newblock Is Design Dead?
+    \newblock \htmladdnormallink{http://www.martinfowler.com/articles/designDead.html}{http://www.martinfowler.com/articles/designDead.html}
+    
+  \beamertemplatearticlebibitems
+  \bibitem{BECK0}
+    Kent Beck
+    \newblock Extreme Programming
+    \newblock \htmladdnormallink{http://c2.com/cgi/wiki?ExtremeProgramming}{http://c2.com/cgi/wiki?ExtremeProgramming}
+    
+  \beamertemplatearticlebibitems
+  \bibitem{SHORE0}
+    James Shore
+    \newblock The Art of Agile
+    \newblock \htmladdnormallink{http://jamesshore.com/}{http://jamesshore.com/}
+    
+  \end{thebibliography}
+\end{frame}
+
+\end{document}
