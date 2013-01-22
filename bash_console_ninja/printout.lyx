@@ -1,0 +1,717 @@
+#LyX 1.6.4 created this file. For more info see http://www.lyx.org/
+\lyxformat 345
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\language spanish
+\inputencoding auto
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\author "" 
+\author "" 
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Console Ninja
+\begin_inset Newline newline
+\end_inset
+
+Cómo dejar de ser un usuario desconsolado
+\end_layout
+
+\begin_layout Author
+Nicolás Brailovsky para GNUtn
+\end_layout
+
+\begin_layout Date
+27 de Noviembre del 2009
+\end_layout
+
+\begin_layout Abstract
+Las nuevas distribuciones para GNU/Linux son cada vez más 
+\begin_inset Quotes eld
+\end_inset
+
+user friendly
+\begin_inset Quotes erd
+\end_inset
+
+, con mejores herramientas gráficas, sin embargo en la transición de nuevo
+ usuario a usuario experto la consola termina siendo necesaria.
+\end_layout
+
+\begin_layout Abstract
+Con el objetivo de reducir un poco el shock inicial de encontrar una interfaz
+ por línea de comandos veremos algunas herramientas para aprender a utilizar
+ la consola.
+\end_layout
+
+\begin_layout Section
+Introducción
+\end_layout
+
+\begin_layout Standard
+Si bien las nuevas distribuciones orientadas al usuario intentan esconder
+ la consola debajo de capas y capas de botones y formularios 
+\begin_inset Quotes eld
+\end_inset
+
+bonitos
+\begin_inset Quotes erd
+\end_inset
+
+, tarde o temprano la ilusión se cáe en la transición de usuario novato
+ a usuario experto; tareas como diagnosticar un problema del sistema, acceder
+ a un equipo remoto o demostrar quien es más geek, son aún indiscutiblemente
+ dominadas por la consola.
+\end_layout
+
+\begin_layout Standard
+Puede verse esta tendencia en los repetidos intentos de Microsoft por incorporar
+ una consola decente
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Decente: aceptada como útil por la comunidad a la que está apuntada
+\end_layout
+
+\end_inset
+
+ en sus últimas versiones de Windows, Powershell (Monad), funcionalidad
+ que hace tiempo se pide desde las comunidades de administradores de sistemas
+ Windows.
+ La consola es una herramienta fundamental para la tarea de cualquier persona
+ dedicada, profesionalmente o no, a administrar sistemas GNU/Linux, por
+ su ubicuidad, su manejo estándar y por su (aunque a veces no lo parezca)
+ simplicidad.
+\end_layout
+
+\begin_layout Standard
+Dejando de lado las introducciones, ¿qué es lo que se puede hacer con la
+ consola en un sistema GNU/Linux? La siguiente lista pretende dar una idea
+ y no ser una enumeración exaustiva:
+\end_layout
+
+\begin_layout Itemize
+Navegar y administrar el sistema de archivos
+\end_layout
+
+\begin_layout Itemize
+Realizar tareas de administración del sistema
+\end_layout
+
+\begin_layout Itemize
+Acceder facilmente a equipos remotos
+\end_layout
+
+\begin_layout Itemize
+Automatizar tareas
+\end_layout
+
+\begin_layout Itemize
+Programar!
+\end_layout
+
+\begin_layout Itemize
+Escuchar música
+\end_layout
+
+\begin_layout Standard
+La diversidad, como se ve, es muy grande, desde las tareas más útiles como
+ la automatización hasta las más inútiles.
+ Quizas hasta sea posible ver películas desde la consola, pero como hay
+ mejores cosas para hacer los sábados por la noche dejaremos eso para quienes
+ se diviertan recompilando kernels, centrandonos en las tareas útiles.
+\end_layout
+
+\begin_layout Section
+¿Qué hace falta?
+\end_layout
+
+\begin_layout Standard
+Primero lo primero: hay que perder el miedo.
+ Si bien una consola no es tan amigable como el 
+\begin_inset Quotes eld
+\end_inset
+
+next next next
+\begin_inset Quotes erd
+\end_inset
+
+ de Windows hay que saber que en los últimos años han habido grandes avances
+ en cuanto a la usabilidad de la consola, tanto como en el mundo de las
+ aplicaciones gráficas.
+ Una parte importante de este avance es la aparición de Internet, que por
+ medio de una búsqueda sencilla nos permite salir del 99,9% de los problemas
+ que podamos encontrar en el camino.
+\end_layout
+
+\begin_layout Standard
+Es importante entender que la consola no es mágia ni es voodoo pero si es
+ un cambio de paradigma importante, donde la eficiencia y la facilidad de
+ uso están privilegiadas por sobre la facilidad de aprendizaje.
+\end_layout
+
+\begin_layout Standard
+Superado el escollo del miedo inicial y sabiendo que no vamos a romper nada
+ (¡o, al menos, que es muy poco probable!) trataremos de aprender a utilizar
+ la consola por medio de una aplicación de prueba con algo de utilidad:
+ crearemos un script que automáticamente se ejecute todas las noches y genere
+ un backup de un directorio en un servidor remoto.
+\end_layout
+
+\begin_layout Standard
+Parece difícil pero, ya veremos, no lo es tanto.
+\end_layout
+
+\begin_layout Section
+Aprendiendo a caminar (antes de correr)
+\end_layout
+
+\begin_layout Standard
+El negro golpe inicial puede ser un poco fuerte si no sabemos, primero,
+ como 
+\begin_inset Quotes eld
+\end_inset
+
+movernos
+\begin_inset Quotes erd
+\end_inset
+
+ en la consola.
+ No es difícil.
+ Con una lista bastante reducida de comandos se puede, en poco tiempo, aprender
+ a utilizar la consola 
+\begin_inset Quotes eld
+\end_inset
+
+decentemente
+\begin_inset Quotes erd
+\end_inset
+
+.
+ A partir de ahí es sólo cuestión de práctica que esos comandos se vuelvan
+ parte de la memoria mecánica: gran parte del poder de la consola se basa
+ en la memoria mecánica, es decir, en una serie de acciones comunes repetitivas,
+ las cuales se vuelven parte del 
+\begin_inset Quotes eld
+\end_inset
+
+lenguaje
+\begin_inset Quotes erd
+\end_inset
+
+ común y pueden ser llevadas a cabo sin que necesariamente medie la voluntad
+ conciente de realizarlas.
+ Una vez que los comandos nos comiencen a resultar naturales perderemos
+ la necesidad de pensar cada uno de ellos; notaremos entonces que utilizar
+ la consola es tán rápido y eficiente, si es que no más, como utilizar un
+ entorno gráfico.
+\end_layout
+
+\begin_layout Standard
+Ahora si, comenzando por lo básico (nuevamente): nos estamos quedando sin
+ cerveza en la heladera y necesitamos, urgentemente, agregarla a la lista
+ del supermercado.
+ Fácil, con 
+\begin_inset Quotes eld
+\end_inset
+
+cd
+\begin_inset Quotes erd
+\end_inset
+
+ vamos hasta el directorio donde está la lista y con cualquier editor de
+ texto la modificamos.
+ Por ejemplo:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ cd ~/supermercado
+\end_layout
+
+\begin_layout Plain Layout
+
+$ ls
+\end_layout
+
+\begin_layout Plain Layout
+
+lista pedido_anterior
+\end_layout
+
+\begin_layout Plain Layout
+
+$ cat lista
+\end_layout
+
+\begin_layout Plain Layout
+
+Papas fritas
+\end_layout
+
+\begin_layout Plain Layout
+
+Licencia de Windows original
+\end_layout
+
+\begin_layout Plain Layout
+
+Cerveza negra
+\end_layout
+
+\begin_layout Plain Layout
+
+Cerveza rubia
+\end_layout
+
+\begin_layout Plain Layout
+
+Cerveza colorada
+\end_layout
+
+\begin_layout Plain Layout
+
+$ nano lista
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si, nano es un editor de texto.
+ Bastante ridículo, ¿no? Más adelante veremos algún editor más usable, por
+ ahora veamos algunos otros comandos útiles:
+\end_layout
+
+\begin_layout Itemize
+cat nos sirvió para ver, en la consola, el contenido de 
+\begin_inset Quotes eld
+\end_inset
+
+lista
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Si hay alguien más editando esa lista y queremos ver en tiempo real como
+ cambia...
+ ¿podemos? Si, con el comando 
+\begin_inset Quotes eld
+\end_inset
+
+watch
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Si la lista del supermercado fuese muy larga y sólo nos interesa saber que
+ se agrega al final...
+ ¿tenemos que leer toda la lista? Claro que no, usamos 
+\begin_inset Quotes eld
+\end_inset
+
+tail
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Idem 
+\begin_inset Quotes eld
+\end_inset
+
+head
+\begin_inset Quotes erd
+\end_inset
+
+ para el comienzo.
+\end_layout
+
+\begin_layout Itemize
+Si queremos ver, en la lista, las distintas marcas de cerveza, ¿cómo filtramos?
+ Fácil, usando 
+\begin_inset Quotes eld
+\end_inset
+
+grep PATRÓN ARCHIVO
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Si no nos acordamos como usar el comando cd y Google no está (?), ¿a quién
+ le preguntamos? maaaan!
+\end_layout
+
+\begin_layout Subsection
+Algunos tips de usabilidad
+\end_layout
+
+\begin_layout Standard
+Cambiar de directorios y abrir archivos son tareas bastante comunes; cuando
+ los nombres se vuelven largos (como supermercado, por ejemplo) se vuelve
+ incómodo tipear todo.
+ Por suerte no es necesario, utilizando el 
+\begin_inset Quotes eld
+\end_inset
+
+tab
+\begin_inset Quotes erd
+\end_inset
+
+ desde la consola podremos autocompletar el nombre de archivo, sin posibilidad
+ de tener errores de tipeo!
+\end_layout
+
+\begin_layout Standard
+No sólo sirve para nombres de archivos, también sirve para nombre de programas
+ y según el entorno que usemos muchas otras cosas más.
+\end_layout
+
+\begin_layout Section
+Scripts
+\end_layout
+
+\begin_layout Standard
+Volvamos a nuestro objetivo inicial: la lista del supermercado es uno de
+ los archivos más importantes de la computadora, después de las películas
+ y la música, por lo que necesitamos crear un backup.
+ Empecemos por algo simple, hagamos un 
+\begin_inset Quotes eld
+\end_inset
+
+backup
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Entre comillas ya que, estrictamente hablando, no se trata de un backup
+ debido a que no provee ninguna de las caracteristicas que un backup debería
+ proveer.
+\end_layout
+
+\end_inset
+
+ desde nuestro home a otro directorio.
+ Es todavía más simple que antes:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ cp ~/supermercado/lista ~/backup
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Es bastante tonto pero hace exactamente lo que queremos que haga.
+ Considerando que vamos a utilizar este comando bastante seguido, busquemos
+ alguna forma de automatizarlo.
+ La más simple es crear un script.
+\end_layout
+
+\begin_layout Subsection
+¿Qué es un script?
+\end_layout
+
+\begin_layout Standard
+Script, guión según su traducción literal del inglés, es en su forma más
+ simple una lista de comandos que indican a la consola (llamada interprete,
+ ya que es quien interpreta el guión) lo que debe hacer.
+ Para crear el script más básico alcanza con copiar la lista de comandos
+ a ejecutar en un archivo de texto plano, usando, por ejemplo, el nano (o
+ el Vim!).
+\end_layout
+
+\begin_layout Standard
+Copiemos la línea que copia un archivo a un archivo (?) y tratemos de ejecutarlo
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ echo 
+\begin_inset Quotes eld
+\end_inset
+
+cp ~/supermercado/lista ~/backup
+\begin_inset Quotes erd
+\end_inset
+
+ > script
+\end_layout
+
+\begin_layout Plain Layout
+
+$ ./script
+\end_layout
+
+\begin_layout Plain Layout
+
+bash: ./script: Permiso denegado 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ouch! ¿Qué pasó acá? Nos faltó decirle al sistema operativo que 
+\begin_inset Quotes eld
+\end_inset
+
+script
+\begin_inset Quotes erd
+\end_inset
+
+ es un script!
+\end_layout
+
+\begin_layout Section
+Permiso!
+\end_layout
+
+\begin_layout Standard
+Antes de poder ejecutar nuestro script nos toca lidiar con un tema un tanto
+ escabroso en la consola: los permisos.
+ El tema de usuarios, grupos y permisos suele dar más de un dolor de cabeza
+ a usuarios novatos y con algo de experiencia por igual, principalmente
+ por tratarse de un aspecto un tanto complicado y a la vez central a toda
+ instalación Linux-compatible.
+\end_layout
+
+\begin_layout Standard
+Los permisos, junto con los usuarios y grupos, permiten lograr un control
+ básico sobre los accesos por archivo y por usuario de una forma relativamente
+ sencilla; para comprender como funcionan debe recordarse que GNU/Linux
+ fue ideado como sistema multi usuario, es decir, un mismo sistema compartido
+ por más de un usuario.
+ Considerando esta situación resulta claro que debe evitarse que un usuario
+ modifique los archivos de otro, así como también debería permitirse esto
+ mismo en caso de que sea necesario (por ejemplo, un grupo de gente trabajando
+ en un trabajo práctico).
+ De esta forma resulta clara la clasificación de los usuarios en grupos:
+ cada persona cuenta con archivos individuales pero a la vez puede pertenecer
+ a diversos grupos dentro del sistema.
+\end_layout
+
+\begin_layout Standard
+Sabiendo que en el sistema existen usuarios y grupos, el segundo punto a
+ considerar es que se puede hacer con un archivo.
+ Las operaciones más claras son leer, escribir (modificar) y ejecutar en
+ el caso de los programas.
+ Asi mismo, y al igual que los usuarios, los archivos pertenecen a una persona
+ y a un grupo al mismo tiempo (nunca a varios).
+\end_layout
+
+\begin_layout Standard
+La conclusión lógica, ahora, es considerar las acciones, por usuario y por
+ grupo.
+ A esto se le suma un tercer conjunto 
+\begin_inset Quotes eld
+\end_inset
+
+otros
+\begin_inset Quotes erd
+\end_inset
+
+, que representa a las personas que no son el usuario al que pertenece el
+ archivo ni tampoco pertenecen al mismo grupo del cual forma parte el archivo.
+\end_layout
+
+\begin_layout Subsection
+Un ejemplo
+\end_layout
+
+\begin_layout Standard
+Veamos nuevamente el tema de los permisos por medio de un ejemplo.
+\end_layout
+
+\begin_layout Standard
+Llegó la crisis a la ciudad gótica y debido al recorte presupuestario Batman
+ se vio obligado a compartir su mainfraime con el Pinguino y el alcalde.
+ Si bien el alcalde no tiene muchos problemas con la situación, su única
+ operación es escribir 
+\begin_inset Quotes eld
+\end_inset
+
+Batiseñal
+\begin_inset Quotes erd
+\end_inset
+
+ en un archivo que todos pueden leer, el Pingüino y Batman prefieren no
+ compartir sus archivos.
+\end_layout
+
+\begin_layout Standard
+Implementar un esquema de seguridad con este ejemplo resulta sencillo.
+ Primero, creamos los usuarios para cada persona:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# adduser batman
+\end_layout
+
+\begin_layout Plain Layout
+
+# adduser robin
+\end_layout
+
+\begin_layout Plain Layout
+
+# adduser pinguino
+\end_layout
+
+\begin_layout Plain Layout
+
+# adduser alcalde
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ahora, agreguemos cada usuario a su grupo
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# usermod -G superheroes -a batman
+\end_layout
+
+\begin_layout Plain Layout
+
+# useradd -G superheroes -a robin
+\end_layout
+
+\begin_layout Plain Layout
+
+# useradd -G villanos -a pinguino
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+¿Qué archivos modifica cada uno?
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+$ ls -lh
+\end_layout
+
+\begin_layout Plain Layout
+
+Propietario	Grupo		  Tamaño   Nombre
+\end_layout
+
+\begin_layout Plain Layout
+
+batman	     superheroes    113K 	identidad_secreta
+\end_layout
+
+\begin_layout Plain Layout
+
+pinguino	   pinguino 	  1,4K 	plan_malvado
+\end_layout
+
+\begin_layout Plain Layout
+
+alcalde	    alcalde        2,7M 	batisenial
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+¿Qué archivos modifica cada uno?
+\end_layout
+
+\end_body
+\end_document

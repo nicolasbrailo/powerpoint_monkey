@@ -1,0 +1,88 @@
+\section{Temas menos b\'asicos}
+
+
+\begin{frame}[t]{Servidores remotos}
+\textit{ Sigamos pensando en Homero\ldots }
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+	\begin{itemize}
+		\item Como copiamos La Odisea de la oficina a casa?
+		\item Usando scp: \\ \textit{ scp laodisea homero@grecia:\textasciitilde \footnote[1]{Se acuerdan del \textasciitilde?} }
+		\item scp no es m\'as que cp sobre ssh
+		\item ssh es un protocolo seguro
+		\item ssh (el comando) ejecuta algo en un servidor
+	\end{itemize}
+\column{.3\textwidth}
+	\pgfdeclareimage[height=4cm]{img/notsobasics/remote}{img/notsobasics/remote}
+	\pgfuseimage{img/notsobasics/remote}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[t]{Tareas programadas}
+\textit{ Sigamos pensando en Homero\ldots }
+\begin{itemize}
+	\item Queremos hacer un backup
+	\item Ma\~nana a la ma\~nana
+	\item Pero nos olvidamos, todav\'ia no se invent\'o el reloj
+	\only<1> {
+		\begin{center}
+		\bigskip
+		\pgfdeclareimage[height=3cm]{img/notsobasics/sunclock}{img/notsobasics/sunclock}
+		\pgfuseimage{img/notsobasics/sunclock}
+		\end{center}
+	}\only<2> {
+		\item F\'acil, usamos \textit{ at }
+		\bigskip
+		\include{code/notsobasics_at}
+	}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{C\'odigos secretos}
+\textit{ Hay muchos secretos en el ejemplo anterior\ldots }
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.65\textwidth}
+	\begin{itemize}
+		\item \alert{ \textasciitilde } => home sweet home
+		\item \alert{ <C-D> } => Control + D
+		\item \alert{ date +"\%F" } => Mostrar fecha \\ en formato Y-M-D
+		\item \alert{ \$( \ldots ) } => evaluar comando antes \\
+			Ej: echo "Hola \$(echo mundo)"
+	\end{itemize}
+\column{.35\textwidth}
+	\pgfdeclareimage[height=3.5cm]{img/notsobasics/usability2}{img/notsobasics/usability2}
+	\pgfuseimage{img/notsobasics/usability2}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[t]{Tareas programadas}
+\textit{ Sigamos pensando en Homero\ldots }
+\begin{columns}[onlytextwidth]
+	\column{.35\textwidth}
+		\pgfdeclareimage[height=3cm]{img/notsobasics/script}{img/notsobasics/script}
+		\pgfuseimage{img/notsobasics/script}
+\column{.65\textwidth}
+	\begin{itemize}
+		\item \textquestiondown Y si el backup es todos los d\'ias?
+		\only<2> {
+			\item F\'acil, usamos \textit{ cron } \\
+		}
+	\end{itemize}
+\end{columns}
+				
+\only<2> {
+	\begin{itemize}
+		\item Leer \textit{ man crontab }
+		\item Agregar el script en /etc/crontab
+		\item Recordar que todav\'ia no escribimos un script!
+		\item Pasar a la siguiente secci\'on y explicar que es un script
+	\end{itemize}
+}
+\end{frame}
+
+

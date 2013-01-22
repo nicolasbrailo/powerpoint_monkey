@@ -1,0 +1,126 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english,spanish]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{textpos}
+\include{code/inc_pygments}
+
+%\usepackage{ifthen}
+%\newboolean{isspanish}
+%\setboolean{isspanish}{false}
+% \ifthenelse{\boolean{isspanish}} 
+% {Hola} {Hello}
+
+\institute[UTN]{Universidad Tecnol\'ogica Nacional}
+\date[] {27 de noviembre del 2009}
+
+\title[Console Foo]{Console Ninja: Como dejar de ser un usuario desconsolado}
+\subtitle{}
+\author[]{Nicol\'as Brailovsky}
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{Console Foo: becoming a console-ninja}
+
+\pgfdeclareimage[height=1.5cm]{img/logo}{img/logo}
+\pgfdeclareimage[height=3.5cm]{img/logo_big}{img/logo_big}
+\logo{\pgfuseimage{img/logo}}
+
+\pgfdeclareimage[height=2cm]{img/happy-face}{img/happy-face}
+\pgfdeclareimage[height=2cm]{img/sad-face}{img/sad-face}
+\pgfdeclareimage[height=1cm]{img/happy-face-small}{img/happy-face}
+\pgfdeclareimage[height=1cm]{img/sad-face-small}{img/sad-face}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\begin{center} \pgfuseimage{img/logo_big} \end{center}
+
+	\setbeamercolor{title}{fg=white,bg=teal}
+	\begin{beamercolorbox}[sep=.01cm,shadow=true,rounded=true,center]{title}
+		\inserttitle
+	\end{beamercolorbox}
+
+	\begin{columns}[onlytextwidth]
+	\column{.3\textwidth}
+		\begin{center}
+			\pgfdeclareimage[width=3cm]{img/gnutn}{img/gnutn}
+			\pgfuseimage{img/gnutn}
+		\end{center}
+	\column{.7\textwidth}
+		\begin{center} {\color{black} 
+			\insertinstitute \\
+			\insertauthor \\
+			\rule{0em}{8pt}
+			\insertdate
+		}  \end{center}
+	\end{columns}
+
+\end{frame}
+
+\begin{frame}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\input{intro}
+\input{basics}
+\input{notsobasics}
+\input{scripting}
+
+%\section{Anexo}
+\input{permisos}
+\input{review}
+
+\begin{frame}[plain]{}
+\begin{beamercolorbox}[rounded=true,center]{title}
+	\inserttitle  \\
+	Gracias por venir!
+\end{beamercolorbox}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\begin{center}
+		\pgfdeclareimage[height=8cm]{img/questions}{img/questions}
+		\pgfuseimage{img/questions}
+	\end{center}
+\column{.5\textwidth}
+	\begin{center}
+		\pgfdeclareimage[width=3cm]{img/gnutn}{img/gnutn}
+		\insertauthor \\ con \\
+		\pgfuseimage{img/gnutn} \\
+		http://www.gnutn.org.ar \\
+		http://nicolasb.com.ar
+	\end{center}
+\end{columns}
+\end{frame}
+
+
+\end{document}

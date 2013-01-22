@@ -1,0 +1,75 @@
+\section{Scripting}
+
+
+\begin{frame}{Lo qu\'e?}
+\begin{columns}[onlytextwidth]
+\column{.3\textwidth}
+	\pgfdeclareimage[height=4cm]{img/scripting/bash}{img/scripting/bash}
+	\pgfuseimage{img/scripting/bash}
+\column{.7\textwidth}
+	\begin{itemize}
+		\item La consola permite automatizar tareas
+		\item Una forma simple: scripting!
+		\item Script (bash): secuencia de comandos
+		\item No son m\'as que texto plano
+		\item La primera l\'inea identifica el int\'erprete
+		\item Bash es un int\'erprete
+		\item Tambi\'en lo son zsh, ksh, PHP, Ruby\ldots
+	\end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}[t]{Un ejemplo}
+\textit{ Armemos un script para que Homero tenga su backup }
+\only<1>{ \include{code/scripting_backup1} }
+\only<2>{ \include{code/scripting_backup2} }
+\only<3>{ \include{code/scripting_backup3} }
+\end{frame}
+
+
+
+\begin{frame}{Corriendo scripts}
+\textit{Para recordar}
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+	\begin{itemize}
+		\item El script se ejecuta con ./nombre\_del\_script
+		\item El ./ ubica el directorio actual \\
+		        \textquestiondown Cu\'al es el resultado de echo \$PATH ?
+		\item No olvidarse: \\ \alert{ chmod +x nombre\_del\_script} \\
+	           Es decir, darle permiso de ejecuci\'on\ldots
+	\end{itemize}
+\column{.3\textwidth}
+		\pgfdeclareimage[height=4.5cm]{img/scripting/running}{img/scripting/running}
+		\pgfuseimage{img/scripting/running}
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}{Scripting avanzado}
+\begin{itemize}
+	\item Hay scripts complejos tambi\'en: script bash == programa!
+	\item Queda como tarea (o para otra charla) \\
+		\begin{itemize}
+			\item Pipes: redirigir la salida de un comando a otro
+			\item sed: editor de texto por comando (!)
+			\item awk: lenguaje procesador de texto
+			\item grep: filtros de texto
+		\end{itemize}
+\end{itemize}
+
+\begin{center}
+	\only<1>{
+		\pgfdeclareimage[height=5cm]{img/scripting/grepsedawk}{img/scripting/grepsedawk}
+		\pgfuseimage{img/scripting/grepsedawk}
+	}\only<2>{
+		\pgfdeclareimage[height=3cm]{img/scripting/awk}{img/scripting/awk}
+		\pgfuseimage{img/scripting/awk}
+	}
+\end{center}
+\end{frame}
+

@@ -1,0 +1,102 @@
+\section{Permiso!}
+
+\begin{frame}{Seguridad}
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.25\textwidth}
+		\pgfdeclareimage[height=3.5cm]{img/permisos/tuxcop}{img/permisos/tuxcop}
+		\pgfuseimage{img/permisos/tuxcop}
+\column{.75\textwidth}
+	\begin{itemize}
+		\item En Linux hay usuarios y grupos
+		\item Usuarios: pertenecen a grupos
+		\item Archivos: pertenecen a grupos y usuarios
+		\item Cada uno tiene acceso por usuario y grupo
+	\end{itemize}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Woot?}
+\textit{Repasemos:} 
+\only<1>{ Los usuarios pertenecen a grupos }
+\only<2>{ Los archivos pertenecen a grupos y usuarios }
+\begin{center}
+\only<1> {
+	\pgfdeclareimage[height=5cm]{img/permisos/usergroups}{img/permisos/usergroups}
+	\pgfuseimage{img/permisos/usergroups}
+} \only<2> {
+	\pgfdeclareimage[height=5cm]{img/permisos/fileusergroup}{img/permisos/fileusergroup}
+	\pgfuseimage{img/permisos/fileusergroup}
+}
+\end{center}
+\begin{textblock*}{297mm}(-45mm,-25mm)
+\begin{center}
+	\pgfdeclareimage[height=3.3cm]{img/intro/confusedninja}{img/intro/confusedninja}
+	\pgfuseimage{img/intro/confusedninja}
+\end{center}
+\end{textblock*}
+\end{frame}
+
+
+\begin{frame}{Modos de archivo}
+\begin{center}
+	\pgfdeclareimage[height=5cm]{img/permisos/rwx}{img/permisos/rwx}
+	\pgfuseimage{img/permisos/rwx}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Modos de archivo}
+\begin{center}
+	\pgfdeclareimage[height=8cm]{img/permisos/rwxugo}{img/permisos/rwxugo}
+	\pgfuseimage{img/permisos/rwxugo}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Modos de archivo: modo octal}
+\begin{center}
+\only<1> {
+	\pgfdeclareimage[height=8cm]{img/permisos/rwxugo_ex1}{img/permisos/rwxugo_ex1}
+	\pgfuseimage{img/permisos/rwxugo_ex1}
+}\only<2> {
+	\pgfdeclareimage[height=8cm]{img/permisos/rwxugo_ex2}{img/permisos/rwxugo_ex2}
+	\pgfuseimage{img/permisos/rwxugo_ex2}
+}\only<3> {
+	\pgfdeclareimage[height=8cm]{img/permisos/rwxugo_ex3}{img/permisos/rwxugo_ex3}
+	\pgfuseimage{img/permisos/rwxugo_ex3}
+}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Seguridad}
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.25\textwidth}
+	\pgfdeclareimage[height=3.5cm]{img/permisos/tuxcop}{img/permisos/tuxcop}
+	\pgfuseimage{img/permisos/tuxcop}
+\column{.75\textwidth}
+	\only<1> {
+		\begin{itemize}
+			\item \alert{ useradd / adduser }: crear usuario
+			\item \alert{ /etc/group }: usuarios por grupo
+			\item \alert{ chown }: cambiar propietario
+			\item \alert{ chmod }: cambiar permiso
+		\end{itemize}
+	} \only<2> {
+		\begin{itemize}
+			\item Creamos un directorio: \\
+			        \alert{mkdir test}
+			\item Creamos algunos archivos: \\
+			        \alert{touch archivo}
+			\item \textquestiondown C\'omo asignamos owner y grupo? \\
+			        \alert{chown user:group archivo}
+			\item \textquestiondown C\'omo le damos los permisos del ejemplo? \\
+			        \alert{chmod 764 archivo}
+		\end{itemize}
+	}
+\end{columns}
+\end{frame}
+
