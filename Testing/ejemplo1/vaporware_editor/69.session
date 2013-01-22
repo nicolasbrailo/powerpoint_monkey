@@ -1,0 +1,23 @@
+window_sizes 1109 732 298 805 524 129
+diagrams
+  classdiagram_ref 129477 // Mock diagrams
+    805 524 100 4 0 0
+  active  classdiagram_ref 129733 // Mock ejemplo
+    805 524 100 4 0 0
+  classdiagram_ref 130885 // unit_test_1
+    805 524 100 4 0 0
+  classdiagram_ref 132037 // integration_test
+    644 419 100 4 0 0
+  classdiagram_ref 132165 // integration_test2
+    805 524 100 4 0 0
+end
+show_stereotypes
+marked
+  class_ref 133189 // Submarino
+end
+selected classdiagram_ref 129733 // Mock ejemplo
+open
+  class_ref 131141 // Model_Object
+  classview_ref 130373 // Unit test example
+end
+end

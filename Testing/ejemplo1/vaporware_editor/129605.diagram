@@ -1,0 +1,7 @@
+format 58
+
+classinstance 128069 class_ref 130885 // Builder
+  drawing_mode actor  name ""   xyz 47 6 2005 life_line_z 2000
+classinstance 128197 class_ref 130373 // Objeto_Testeable
+  name ""   xyz 124 28 2000 life_line_z 2000
+end

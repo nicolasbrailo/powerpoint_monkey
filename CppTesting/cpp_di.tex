@@ -1,0 +1,106 @@
+\section{DI en C++}
+
+
+\begin{frame}{Algo extra\~no\ldots}
+Supongamos un c\'odigo perfectamente inyectable como \'este:
+\include{code/di1}
+\end{frame}
+
+\begin{frame}{Algo extra\~no\ldots}
+Y un test simple para el c\'odigo perfectamente inyectable:
+\include{code/di1_ut}
+\end{frame}
+
+\begin{frame}[fragile,shrink]{\textquestiondown Por qu\'e fall\'o?}
+\begin{semiverbatim}
+Running main() from gtest_main.cc
+{\color[rgb]{0,1,0}[==========]} Running 1 test from 1 test case.
+{\color[rgb]{0,1,0}[----------]} Global test environment set-up.
+{\color[rgb]{0,1,0}[----------]} 1 test from SaludadorTest
+{\color[rgb]{0,1,0}[ RUN      ]} SaludadorTest.saludar
+test6.cpp:24: Failure
+Actual function call count doesn't match this expectation.
+         Expected: to be called once
+           Actual: never called - unsatisfied and active
+{\color[rgb]{1,0,0}[  FAILED  ]} SaludadorTest.saludar
+{\color[rgb]{0,1,0}[----------]} Global test environment tear-down
+{\color[rgb]{0,1,0}[==========]} 1 test from 1 test case ran.
+{\color[rgb]{0,1,0}[  PASSED  ]} 0 tests.
+{\color[rgb]{1,0,0}[  FAILED  ]} 1 test, listed below:
+{\color[rgb]{1,0,0}[  FAILED  ]} SaludadorTest.saludar
+
+ 1 FAILED TEST
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[t]{\textquestiondown C\'omo lo arreglamos?}
+No llam\'o a nuestro mock por no ser virtual. \\
+\textit{ En C++ tenemos distintas formas de solucionar este problema }
+
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\begin{itemize}
+		\item Virtual method
+		\item Pseudo virtual method
+		\item Adapter / Proxy
+		\item Template
+	\end{itemize}
+\column{.5\textwidth}
+	\begin{flushright}
+	\pgfdeclareimage[height=4cm]{img/misc/cpp}{img/misc/cpp}
+	\pgfuseimage{img/misc/cpp}
+	\end{flushright}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[t]{Virtual method}
+Lo m\'as f\'acil es cambiar
+\begin{center}
+  {\color[rgb]{0,1,0}const} {\color[rgb]{1,0,0}char*} saludo()\{ {\color[rgb]{0,1,0}return} {\color[rgb]{0,0,1}"Hola mundo"}; \}
+\end{center}
+por
+\begin{center}
+  {\color[rgb]{0,1,0}virtual const} {\color[rgb]{1,0,0}char*} saludo()\{ {\color[rgb]{0,1,0}return} {\color[rgb]{0,0,1}"Hola mundo"}; \}
+\end{center}
+Pero no siempre se puede
+\begin{itemize}
+	\item A veces el c\'odigo no es nuestro
+	\item Los femtosegundos que introduce la vtable son muchos
+	\item No se quiere brindar un punto de extensi\'on en la clase
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Pseudo virtual method}
+Tambi\'en se puede cambiar
+\begin{center}
+  {\color[rgb]{0,1,0}const} {\color[rgb]{1,0,0}char*} saludo()\{ {\color[rgb]{0,1,0}return} {\color[rgb]{0,0,1}"Hola mundo"}; \}
+\end{center}
+por
+\begin{center}
+  {\color[rgb]{0,1,0}VIRTUAL\_TEST const} {\color[rgb]{1,0,0}char*} saludo()\{ {\color[rgb]{0,1,0}return} {\color[rgb]{0,0,1}"Hola mundo"}; \}
+\end{center}
+Donde VIRTUAL\_TEST es un flag de compilaci\'on. \\
+\bigskip
+Pero no siempre se puede
+\begin{itemize}
+	\item A veces el c\'odigo no es nuestro
+	\item No queremos tocar el makefile
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[shrink]{Adapter / Proxy}
+Recordar {\color[rgb]{0,0,1}s/Diccionario/DictProxy/g} en el test
+\include{code/di2}
+\end{frame}
+
+\begin{frame}[shrink]{Template}
+\include{code/di3}
+\end{frame}
+
+\begin{frame}[shrink]{Template}
+\include{code/di3_ut}
+\end{frame}

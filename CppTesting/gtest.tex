@@ -1,0 +1,184 @@
+\section{Google Test}
+
+\begin{frame}[t]{No m\'as asserts}
+\begin{center}
+	\pgfdeclareimage[height=1cm]{img/logos/google_test}{img/logos/google_test}
+	\pgfuseimage{img/logos/google_test}
+\end{center}
+\textit{ \textquestiondown Por qu\'e un framework de testing? }
+\bigskip
+\begin{itemize}
+	\item Nos olvidamos del scaffolding
+	\item Ayuda a crear tests independientes y repetibles
+	\item Imprime mas info de debug que un assert
+	\item Provee herramientas para distintos tipos de tests
+\end{itemize}
+\bigskip
+RTFM @ \url{http://code.google.com/p/googletest}
+\end{frame}
+
+\begin{frame}[t]{GoogleTest: Conceptos B\'asicos}
+\begin{flushright}
+	RTFM @ \href{http://code.google.com/p/googletest/wiki/GoogleTestAdvancedGuide}{GoogleTestAdvancedGuide}
+\end{flushright}
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Estructura 
+\end{beamercolorbox}
+\begin{itemize}
+	\item Cada test por separado, con la macro TEST
+	\item El test tiene un nombre y un grupo
+	\item Hay "expectations" en distintos puntos
+	\item Si requiere estado $\implies$ TEST\_F (fixture)
+\end{itemize}
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Expectations / Assertions: Lo mas simple
+\end{beamercolorbox}
+\begin{itemize}
+	\item assert() $\implies$ ASSERT\_* y EXPECT\_*
+	\item \{ASSERT, EXPECT\}\_\{TRUE, FALSE, EQ, LT, STREQ\}
+	\item EXPECT\_* $\implies$ no fatal
+	\item ASSERT\_* $\implies$ fatal (interrumpe el test)
+\end{itemize}
+\bigskip
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo y su test}
+\include{code/protocol1_ut2}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo y su test}
+\include{code/protocol1_ut2_b}
+\end{frame}
+
+
+\begin{frame}{Un ejemplo y su test}
+\textit{Est\'a un poco mejor, pero todav\'ia\ldots}
+\begin{itemize}
+	\item Hay mucho scaffolding
+	\item Es fr\'agil
+	\item Expectations en todos lados $\implies$ test poco claro
+\end{itemize}
+\bigskip
+\textit{\textquestiondown Qu\'e ganamos?}
+\begin{itemize}
+	\item Menos c\'odigo (Linkear con -lgtest\_main)
+	\item Mejores mensajes de error
+\end{itemize}
+\bigskip
+\alert{Veamos como se ve en funcionamiento\ldots}
+\end{frame}
+
+
+\begin{frame}[fragile]{Test run del test: Todo OK}
+\begin{semiverbatim}
+Running main() from gtest_main.cc
+{\color[rgb]{0,1,0}[==========]} Running 1 test from 1 test case.
+{\color[rgb]{0,1,0}[---------------]} Global test environment set-up.
+{\color[rgb]{0,1,0}[---------------]} 1 test from Handshake
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[       OK ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[---------------]} Global test environment tear-down
+{\color[rgb]{0,1,0}[==========]} 1 test from 1 test case ran.
+{\color[rgb]{0,1,0}[  PASSED  ]} 1 test.
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[shrink=2,fragile]{Test run del test: Una falla}
+\begin{semiverbatim}
+Running main() from gtest_main.cc
+{\color[rgb]{0,1,0}[==========]} Running 1 test from 1 test case.
+{\color[rgb]{0,1,0}[---------------]} Global test environment set-up.
+{\color[rgb]{0,1,0}[---------------]} 1 test from Handshake
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.TxOK
+test1.cpp:4: Failure
+Value of: "Adios mundo cruel"
+Expected: (char*)msg
+Which is: "Hola mundo"
+test1.cpp:20: Failure
+Value of: errs
+  Actual: 1
+Expected: 0
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[---------------]} Global test environment tear-down
+{\color[rgb]{0,1,0}[==========]} 1 test from 1 test case ran.
+{\color[rgb]{0,1,0}[  PASSED  ]} 0 tests.
+{\color[rgb]{1,0,0}[  FAILED  ]} 1 test, listed below:
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.TxOK
+
+ 1 FAILED TEST
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}[t]{Unit Test: The Revenge}
+Sabiendo de que se trata gTest\ldots \textit{ Mejoremos un poco el test }
+\bigskip
+\begin{itemize}
+	\item \textquestiondown No molesta el c\'odigo repetido?
+	\item \textquestiondown No es feo crear a mano el estado previo al test?
+\end{itemize}
+
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Reduzca el nivel de stress, use Fixtures!
+\end{beamercolorbox}
+
+\begin{textblock*}{30mm}(15mm,12mm)
+	\pgfdeclareimage[height=3cm]{img/misc/revenge}{img/misc/revenge}
+	\pgfuseimage{img/misc/revenge}
+\end{textblock*}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{As\'i queda el Fixture}
+\include{code/protocol1_ut3}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{As\'i quedan los tests}
+\include{code/protocol1_ut3_b}
+\end{frame}
+
+\begin{frame}{Google Test: algunos tips}
+\begin{itemize}
+	\item En EXPECT\_* usar primero el valor y luego la variable \\
+				\textit{ Los mensajes de error ser\'an mas claros }
+	\item Usar EXPECT\_THROW( \{ \ldots \}, ExcpetionType ) \\
+				\textit{ EXPECT\_THROW es muy \'util pero no olvidar las llaves }
+	\item Los death tests pueden servir para algo \\
+				\textit{ Un death test forkea el proceso y espera que salga el hijo }
+	\item No usar especificadores de excepciones \\
+				\textit{ Hacen desastres junto con los templates. Son feas anyway.}
+	\item No usar como nombre del test el de la clase \\
+				\textit{ Pueden ocurrir cosas bizarras y es mas dif\'icil usar GDB }
+\end{itemize}
+\pgfdeclareimage[height=2cm]{img/misc/tips}{img/misc/tips}
+\pgfuseimage{img/misc/tips}
+\end{frame}
+
+
+\begin{frame}[t]{Todav\'ia no terminamos\ldots}
+\bigskip
+\begin{itemize}
+	\item El test sigue siendo fr\'agil
+	\item Crear un socket puede ser lento
+	\item El c\'odigo es feo y quedan partes sin testear \\
+		\begin{itemize}
+			\item \textquestiondown C\'omo testeamos que pasa si falla el socket?
+			\item \textquestiondown C\'omo testeamos que el comando se env\'ie bien?
+		\end{itemize}
+\end{itemize}
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Por suerte todav\'ia nos queda ver Google Mock!
+\end{beamercolorbox}
+
+\begin{textblock*}{30mm}(90mm,-50mm)
+	\pgfdeclareimage[height=2cm]{img/misc/mockingbird}{img/misc/mockingbird}
+	\pgfuseimage{img/misc/mockingbird}
+\end{textblock*}
+\end{frame}
+

@@ -1,0 +1,83 @@
+\section{Unit Testing en C++}
+
+
+\begin{frame}{\textquestiondown Qu\'e hacemos en C++ cuando hay un bug?}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+\begin{textblock*}{30mm}(-20mm,-37mm)
+\pgfdeclareimage[height=8.2cm,width=7cm]{img/cpp_unit_testing/hiding}{img/cpp_unit_testing/hiding}
+\pgfuseimage{img/cpp_unit_testing/hiding}
+\end{textblock*}
+\column{.5\textwidth}
+	\textit{Luego de llorar por los rincones}
+	\begin{itemize}
+		\item Aislamos el problema
+		\item Arreglamos el problema
+		\item Commiteamos un fix
+		\item goto 10
+	\end{itemize}
+	\bigskip
+	\textit{O creamos un test\ldots}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[shrink=2,plain,label=OriginalExample]{Un ejemplo}
+\include{code/protocol1}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo y su test}
+\include{code/protocol1_ut}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo y su test}
+\include{code/protocol1_ut_b}
+\end{frame}
+
+
+\begin{frame}[shrink=2,t,fragile]{Un ejemplo y su test: Resultados}
+Descubrimos un bug
+\begin{semiverbatim}
+a.out: test2.cpp:5: int main():
+      Assertion `errs == 1' failed.
+Cancelado
+\end{semiverbatim}
+El mensaje no es muy descriptivo pero como el c\'odigo es poco
+\textit{ cambiemos }
+\begin{center} DbSingleton->getInstance()->\alert{ save\_princess }("recv"); \end{center} 
+\textit{ por }
+\begin{center} DbSingleton->getInstance()->\alert{ save\_error }("recv"); \end{center}
+Queda una pregunta\ldots
+\end{frame}
+
+
+\begin{frame}{Un ejemplo y su test: Resultados}
+\begin{center}
+	\textquestiondown Todo eso para un test? \\
+	\bigskip
+	\pgfdeclareimage[height=5cm]{img/cpp_unit_testing/wtf-monkey}{img/cpp_unit_testing/wtf-monkey}
+	\pgfuseimage{img/cpp_unit_testing/wtf-monkey}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Un ejemplo y su test}
+\textit{ El test del ejemplo tiene varios problemas }
+\begin{itemize}
+	\item El test es fragil (\textquestiondown y si PORT est\'a ocupado?)
+	\item La intenci\'on del test es poco clara
+	\item Hace falta mucho "scaffolding"
+	\item Los asserts no son herramientas de test
+\end{itemize}
+\textit{ El c\'odigo del ejemplo tambi\'en\ldots}
+\begin{itemize}
+	\item Handshake depende de una implementaci\'on
+	\item Hay dependencias ocultas
+	\item El c\'odigo es poco flexible
+	\item \textquestiondown Alguien encuentra m\'as?
+\end{itemize}
+\textit{Por suerte arreglando el test arreglamos el c\'odigo!}
+\end{frame}
+

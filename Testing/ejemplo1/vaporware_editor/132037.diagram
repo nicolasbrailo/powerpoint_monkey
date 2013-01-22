@@ -1,0 +1,42 @@
+format 58
+
+classcanvas 128069 class_ref 132805 // Vehiculo
+  draw_all_relations default hide_attributes no hide_operations no show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_multiplicity no show_members_initialization yes member_max_width 0 show_parameter_dir no show_parameter_name yes package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote no shadow default show_stereotype_properties no
+  xyz 43 6 2000
+end
+classcanvas 128581 class_ref 133061 // Avion
+  draw_all_relations default hide_attributes no hide_operations no show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_multiplicity default show_members_initialization yes member_max_width 0 show_parameter_dir default show_parameter_name yes package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 5 136 2000
+end
+classcanvas 128709 class_ref 133189 // Submarino
+  draw_all_relations default hide_attributes no hide_operations no show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_multiplicity default show_members_initialization yes member_max_width 0 show_parameter_dir default show_parameter_name yes package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 150 136 2000
+end
+classcanvas 129989 class_ref 133317 // Jeep
+  draw_all_relations default hide_attributes no hide_operations no show_members_full_definition yes show_members_visibility yes show_members_stereotype yes show_members_multiplicity default show_members_initialization yes member_max_width 0 show_parameter_dir default show_parameter_name yes package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  hidden_operations
+    operation_ref 130629 // avanzar
+  xyz 80 202 2000
+end
+relationcanvas 128965 relation_ref 133829 // <generalisation>
+  geometry VHV
+  from ref 128581 z 1999 to point 57 119
+  line 129477 z 1999 to point 132 119
+  line 129605 z 1999 to ref 128069
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 129093 relation_ref 133957 // <generalisation>
+  geometry VHV
+  from ref 128709 z 1999 to point 202 119
+  line 129221 z 1999 to point 132 119
+  line 129349 z 1999 to ref 128069
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 130117 relation_ref 134085 // <generalisation>
+  from ref 129989 z 1999 to ref 128069
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

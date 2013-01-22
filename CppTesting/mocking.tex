@@ -1,0 +1,312 @@
+\section{Google Mock}
+
+
+\begin{frame}[t]{Mocking}
+\begin{center}
+	\pgfdeclareimage[height=1cm]{img/logos/google_mock}{img/logos/google_mock}
+	\pgfuseimage{img/logos/google_mock}
+\end{center}
+
+\only<1> {
+	\textit{ \textquestiondown Para qu\'e usar mocking? }
+	\bigskip
+	\begin{itemize}
+		\item Permite testear comportamiento
+		\item Permite mejorar la cobertura
+		\item Ayuda a aislar componentes eliminando dependencias
+		\item Permite acelerar tests lentos (p. ej. al eliminar una DB)
+		\item Permite prototipar un m\'odulo no implementado
+	\end{itemize}
+}
+
+\only<2> {
+	\textit{ \textquestiondown Google Mock? }
+	\bigskip
+	\begin{itemize}
+		\item Mocking $\implies$ lenguaje de tipado din\'amico
+		\item Hay pocos frameworks de mocking en C++
+		\item Google Mock es una herramienta nueva
+		\item No hace falta mantener los mocks a mano
+		\item Es necesario entender DI, herencia y polimorfismo
+	\end{itemize}
+}
+
+\bigskip
+RTFM @ \url{http://code.google.com/p/googlemock}
+\end{frame}
+
+\begin{frame}{Un ejemplo y su test}
+ Recordemos el c\'odigo original: \hyperlink{OriginalExample}{\beamerbutton{Click aqu\'i para verlo}}
+\begin{itemize}
+	\item Los singletons dificultan el testing
+	\item La dependencia de la DB est\'a oculta
+	\item Hace falta conocer la implementaci\'on
+	\item Depencia en la implementaci\'on, no en la interfaz
+\end{itemize}
+\bigskip
+\textit{Empezemos por algo f\'acil, refactorizemos la clase para que}
+\begin{itemize}
+	\item no dependa de la implementaci\'on de la BD
+	\item podamos verificar las condiciones de error
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[shrink=2,plain]{Un ejemplo, con 40\% mas DI}
+\include{code/protocol2}
+\end{frame}
+
+
+\begin{frame}{Mocking Basics}
+\textit{Eso fue f\'acil. Ahora, \textquestiondown c\'omo modificamos el test? \\
+Recordemos que \ldots}
+\begin{itemize}
+	\item El objeto testeado depende de una interfaz
+	\item El mock implementa la interfaz
+	\item Al objeto testeado no le "importa" cual usa
+	\item Es similar a tener mas de una implementaci\'on
+\end{itemize}
+\begin{center}
+\pgfdeclareimage[height=3cm]{img/mocking/mocking_example}{img/mocking/mocking_example}
+\pgfuseimage{img/mocking/mocking_example}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo, con 40\% mas DI y su test}
+\include{code/protocol2_ut1}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo, con 40\% mas DI y su test: An\'alisis}
+\textit{ Eso funciona pero }
+\begin{itemize}
+	\item No est\'a bueno tener que analizar los printfs
+	\item No es automatizable
+	\item Hay que mantener la implementaci\'on del mock
+\end{itemize}
+\bigskip
+\textit{ Entonces nos conviene usar gMock }
+\begin{itemize}
+	\item MOCK\_METHOD\alert{N}(nombre, firma) $\implies$ declara un m\'etodo
+	\item \alert{N} es el n\'umero de argumentos
+	\item El m\'etodo debe ser virtual
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo, con 40\% mas DI y su test}
+\include{code/protocol2_ut2}
+\end{frame}
+
+
+
+\begin{frame}[t]{Definiendo comportamiento}
+\textit{Compila pero no hace nada, nos falta definir las expectations}
+\bigskip
+\begin{itemize}
+	\item EXPECT\_CALL es la forma mas b\'asica
+	\item Se escribe EXPECT\_CALL(objeto \alert{,} m\'etodo)
+	\item El m\'etodo es un "matcher"
+	\item El "matcher" matchea los argumentos
+	\item Luego de EXPECT\_CALL se define el comportamiento
+	\item El comportamiento es lo que har\'a el mock al ser llamado
+\end{itemize}
+\only<1>{
+	\begin{center}
+	\pgfdeclareimage[height=3cm]{img/mocking/behaviour}{img/mocking/behaviour}
+	\pgfuseimage{img/mocking/behaviour}
+	\end{center}
+}
+\only<2>{
+	\begin{center}
+	EXPECT\_CALL( db, save\_error(\alert{MATCHER}) )
+	\end{center}
+}
+\end{frame}
+
+
+
+\begin{frame}[t]{Definiendo comportamiento: Matchers}
+\begin{flushright}
+	RTFM @ \href{http://code.google.com/p/googlemock/wiki/CheatSheet\#Matchers}{Google C++ Mocking Framework Cheat Sheet}
+\end{flushright}
+\begin{itemize}
+	\item Un \alert{MATCHER} es una descripci\'on del argumento esperado
+	\item Existen matchers para enteros, cadenas, etc. \\
+		\only<2>{
+			\begin{itemize}
+			\item Para matchear un escalar podr\'iamos hacer \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{3}) )
+					\end{center}
+			\item Para matchear un rango podr\'iamos hacer \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{Gt(3)}) )
+					\end{center}
+			\item Para matchear una cadena podr\'iamos hacer \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{StrEq("foobar")}) )
+					\end{center}
+			\end{itemize}
+		} \only<3>{
+			\begin{itemize}
+			\item Para matchear mas de una condici\'on \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{AllOf(Gt(3), Lt(10))}) )
+					\end{center}
+			\item Para matchear cualquier cosa \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{\_}) )
+					\end{center}
+			\end{itemize}
+		}
+	\item Misma funci\'on y 2 matchers $\implies$ expectations distintas
+		\only<4>{
+			\begin{itemize}
+			\item Ac\'a hay dos expectations \\
+					\begin{center}
+					EXPECT\_CALL( foo, bar(\alert{2}) ) \\
+					EXPECT\_CALL( foo, bar(\alert{3}) )
+					\end{center}
+					Para que est\'e OK hay que hacer \\
+					\begin{center}
+					foo.bar(2); foo.bar(3);
+					\end{center}
+			\item Aunque esto tambi\'en anda \ldots \\
+					\begin{center}
+					foo.bar(2); foo.bar(3); foo.bar(4);
+					\end{center}
+			\end{itemize}
+		}
+	\only<5> {
+		\item Ya podemos escribir \\
+			\begin{center}
+			EXPECT\_CALL( db, save\_error(\alert{"recv"}) )
+			\end{center}
+		\item Todav\'ia nos falta definir las acciones!
+	}
+\end{itemize}
+\only<1>{
+	\begin{textblock*}{30mm}(-10mm,15mm)
+	\pgfdeclareimage[height=3cm]{img/mocking/lipsum_mug}{img/mocking/lipsum_mug}
+	\pgfuseimage{img/mocking/lipsum_mug}
+	\end{textblock*}
+}
+\end{frame}
+
+
+\begin{frame}[t]{Definiendo comportamiento: Acciones}
+\begin{flushright}
+	RTFM @ \href{http://code.google.com/p/googlemock/wiki/CheatSheet\#Cardinalities}{Google C++ Mocking Framework Cheat Sheet}
+\end{flushright}
+\begin{itemize}
+	\item Un \alert{ACTION} define lo que har\'a un mock al ser llamado \\
+		\only<2>{
+			\begin{itemize}
+			\item Por ejemplo: \\
+				\begin{center} EXPECT\_CALL( foo, bar(\_) ).WillOnce(Return(42)); \end{center}
+				Es un matcher que retornar\'a 42 la primer llamada. \\
+				\textquestiondown Qu\'e har\'a en llamadas subsiguientes?
+			\end{itemize}
+		}
+	\item Por cada matcher hay al menos una acci\'on \\
+		\only<3>{
+			\begin{itemize}
+			\item Si no est\'a definida es una acci\'on por defecto, como \\
+					 la segunda llamada del caso anterior.
+			\item Para valores \alert{num\'ericos} es \alert{0}
+			\item Para \alert{punteros} es \alert{NULL}
+			\item Para \alert{objectos} dar\'a un \alert{error} y fallar\'a el test
+			\item La acci\'on por defecto puede ser cambiada
+			\end{itemize}
+		}
+	\item Por cada acci\'on hay al menos una cardinalidad \\
+		\only<4>{
+			\begin{itemize}
+			\item Por defecto es \alert{1}
+			\item La macro \alert{Times} define cardinalidad expl\'icita \\
+				\begin{center} EXPECT\_CALL( foo, bar(\_) ).Times(42); \end{center}
+			\item La cardinalidad queda implicita al definir m\'as de una acci\'on \\
+				\begin{center} .WillOnce(Return(42)).WillOnce(Return(42)); \end{center}
+			\item Podemos definir una acci\'on por defecto as\'i:
+				\begin{center} .WillRepeatedly(Return(42)); \end{center}
+			\end{itemize}
+		}
+	\only<5> {
+		\item Ya podemos escribir \\
+			\begin{center}
+			EXPECT\_CALL( db, save\_error("recv") ) \\
+				\alert{.WillOnce(} ACTION \alert{)};
+			\end{center}
+		\item Todav\'ia nos falta definir la acci\'on!
+	}
+\end{itemize}
+\only<1>{
+	\begin{textblock*}{30mm}(-10mm,15mm)
+	\pgfdeclareimage[height=3cm]{img/mocking/action}{img/mocking/action}
+	\pgfuseimage{img/mocking/action}
+	\end{textblock*}
+}
+\end{frame}
+
+
+\begin{frame}[t]{Definiendo comportamiento: Acciones II}
+\begin{flushright}
+	RTFM @ \href{http://code.google.com/p/googlemock/wiki/CheatSheet\#Actions}{Google C++ Mocking Framework Cheat Sheet}
+\end{flushright}
+\begin{itemize}
+	\item Lo m\'as f\'acil es devolver un valor
+	\only<2> {
+		\begin{itemize}
+		\item Tambi\'en se puede devolver "nada" \\
+			\begin{center}
+			EXPECT\_CALL( db, save\_error("recv") ) \\
+				.WillOnce(\alert{Return()});
+			\end{center}
+		\item Las referencias son ezpecialez \\
+			\begin{center}
+			EXPECT\_CALL( foo, bar(\_) ) \\
+				.WillOnce(\alert{ReturnRef(obj)});
+			\end{center}
+		\end{itemize}
+	}
+	\item Aunque no es dif\'icil hacer otra cosa
+	\only<3> {
+		\begin{itemize}
+		\item Por ejemplo, asignar un valor
+			\begin{center}.WillOnce(\alert{Assign(\&var, VALUE)})\end{center}
+		\item O lanzar una excepci\'on
+			\begin{center}.WillOnce(\alert{Throw(Exception)})\end{center}
+		\end{itemize}
+	}
+	\item O llamar a alguien para que haga algo mas
+	\only<4> {
+		\begin{itemize}
+		\item Por ejemplo, una funci\'on \footnote{Que debe tener la misma firma que el m\'etodo}
+			\begin{center}.WillOnce(\alert{Invoke(f)})\end{center}
+		\item O a un objeto
+			\begin{center}.WillOnce(\alert{Invoke(object\_ptr, \&class::method})\end{center}
+		\end{itemize}
+	}
+	\only<5> {
+		\item Ahora si, estamos listos, nuestra expectation va a ser \\
+			\begin{center}
+			EXPECT\_CALL( db, save\_error("recv") ) \\
+				.WillOnce(\alert{ Return() });
+			\end{center}
+	}
+\end{itemize}
+\only<1>{
+	\begin{textblock*}{30mm}(-10mm,15mm)
+	\pgfdeclareimage[height=3cm]{img/mocking/ostrich}{img/mocking/ostrich}
+	\pgfuseimage{img/mocking/ostrich}
+	\end{textblock*}
+}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo, con 40\% mas DI y su test}
+\include{code/protocol2_ut3}
+\end{frame}
+

@@ -1,0 +1,301 @@
+\section{Tipos de tests}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tests unitarios}
+
+\begin{frame}{}
+Tests unitarios: el tipo de test mas b\'asico
+\begin{itemize}
+	\item Prueba s\'olo una clase (aislada)
+	\item repetibles y deterministicos
+	\item autom\'aticos
+	\item se componen de varios tests cases
+	\item cada test case prueba un aspecto de funcionalidad \ldots
+	\item que es un requerimiento (de la clase)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Veamos un ejemplo\ldots}
+\begin{textblock*}{112mm}(0mm,-35mm)
+	\begin{columns}[t,onlytextwidth]
+	\column{.6\textwidth}
+		\include{code/unit_test1}
+	\column{.4\textwidth}
+		\begin{flushright}
+			\pgfdeclareimage[height=4cm]{ejemplo1/unit_test1}{ejemplo1/unit_test1}
+			\pgfuseimage{ejemplo1/unit_test1}
+		\end{flushright} 
+	\end{columns}
+\end{textblock*}
+\end{frame}
+
+\begin{frame}[t,fragile]
+\frametitle{Para el ejemplo}
+\begin{textblock*}{112mm}(0mm,-1mm)
+\begin{center}
+	Armemos un test unitario que verifique que los \\
+	veh\'iculos se destruyen si no tienen combustible
+\end{center}
+\end{textblock*}
+\begin{textblock*}{112mm}(0mm,9mm)
+\begin{columns}[t,onlytextwidth]
+\column{.8\textwidth}
+	\include{code/unit_test2}
+\column{.2\textwidth}
+	\begin{flushright} \pgfuseimage{img/misc/happy-face} \end{flushright} 
+\end{columns}
+\end{textblock*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tests de regresi\'on}
+
+\begin{frame}[t]{Tests de regresi\'on}
+Los tests de regresi\'on en verdad son tests unitarios
+
+\begin{itemize}
+	\item que ya funcionan
+	\item adem\'as de requerimientos puede validar "bugs"
+	\item se corren luego de cada \\
+			\begin{itemize}
+				\item refactor
+				\item bugfix
+				\item hacer un deploy
+				\item en general, modificaci\'on
+			\end{itemize}
+	\item verifican si existe una regresi\'on
+\end{itemize}
+
+\begin{textblock*}{30mm}(-30mm,3mm)
+	\pgfdeclareimage[height=5cm]{img/misc/spiral}{img/misc/spiral}
+	\pgfuseimage{img/misc/spiral}
+\end{textblock*}
+\end{frame}
+
+\begin{frame}{Siguiendo el ejemplo\ldots}
+\begin{textblock*}{112mm}(0mm,-35mm)
+	\begin{columns}[t,onlytextwidth]
+	\column{.6\textwidth}
+		\include{code/regression_test}
+	\column{.4\textwidth}
+		\begin{flushright}
+			\pgfdeclareimage[height=4cm]{ejemplo1/regression_test}{ejemplo1/regression_test}
+			\pgfuseimage{ejemplo1/regression_test}
+		\end{flushright} 
+	\end{columns}
+\end{textblock*}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Y corremos el test...}
+\begin{center} \alert{ \textquestiondown Qu\'e fall\'o? } \end{center}
+\begin{columns}[t,onlytextwidth]
+\column{.8\textwidth}
+	\include{code/unit_test1}
+\column{.2\textwidth}
+	\begin{flushright} \pgfuseimage{img/misc/sad-face} \end{flushright}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Corregimos el error, y ahora si \ldots}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\pgfdeclareimage[height=4cm]{ejemplo1/regression_test2}{ejemplo1/regression_test2}
+	\pgfuseimage{ejemplo1/regression_test2}
+\column{.5\textwidth}
+	\begin{flushright}
+		\pgfuseimage{img/misc/happy-face}
+	\end{flushright}
+	\include{code/regression_test2}
+\end{columns}
+\end{frame}
+
+\subsection{Integraci\'on Continua}
+\begin{frame}{Integraci\'on continua}
+Si un test que antes funcionaba ahora falla:
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.2\textwidth}
+	\pgfdeclareimage[height=3cm]{img/misc/integration}{img/misc/integration}
+	\pgfuseimage{img/misc/integration}
+\column{.8\textwidth}
+	\begin{itemize}
+		\item existe una regresi\'on
+		\item entre el \'ultimo commit testeado y el actual
+		\item menos commits $\implies$ mas f\'acil \\
+				descubrir la causa
+		\item uno por commit se llama integraci\'on continua!
+	\end{itemize}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}{Integraci\'on continua}
+Un servidor de IC
+\begin{itemize}
+	\item requiere tests "r\'apidos"
+	\item puede schedulear tests "lentos" diariamente
+	\item provee feedback del commit en cuesti\'on de minutos
+	\item \alert{requiere tests deterministicos y repetibles!}
+\end{itemize}
+\bigskip
+\bigskip
+\only<2>{
+	\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+		Veamos una demo con el Cruise Control!
+	\end{beamercolorbox}
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Tests de integraci\'on}
+\begin{frame}[t]{Tests de integraci\'on}
+\begin{center}
+	\alert{ Tests de Integraci\'on != Integraci\'on Continua }
+\end{center}
+Los tests de integraci\'on:
+\begin{itemize}
+	\item prueban mas de un componente
+	\item pueden implementarse como tests unitarios
+	\item no siempre son deterministicos o repetibles
+	\item no siempre son "r\'apidos"
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\textquestiondown Por qu\'e?}
+Tener solo tests de integraci\'on no es cost-effective:
+\include{code/why_ic_example}
+\begin{center} \alert{
+	\textquestiondown Cu\'antos tests unitarios son? \\
+	\textquestiondown Cu\'antos tests de integraci\'on son?
+} \end{center}
+\end{frame}
+
+\begin{frame}[t]{Tests de integraci\'on}
+\begin{columns}[t,onlytextwidth]
+\column{.6\textwidth}
+	Integraci\'on
+	\begin{table}[ht!]
+	\centering
+	\small
+	\begin{tabular}{| c || c | c | c | c |} \hline
+	N & Funci\'on & x & y & z \\ \hline
+	1 & foo & true & true & true \\
+	2 & foo & true & true & false \\
+	3 & foo & true & false & true \\
+	4 & foo & true & false & false \\
+	5 & foo & false & true & true \\
+	6 & foo & false & true & false \\
+	7 & foo & false & false & true \\
+	8 & foo & false & false & false \\
+	\hline
+	\end{tabular}
+	\end{table}
+\column{.4\textwidth}
+	Unitario
+	\begin{table}[ht!]
+	\centering
+	\small
+	\begin{tabular}{| c || c | c | c |} \hline
+	N & Funci\'on & x & y \\ \hline
+	1 & bar & true & N/A \\
+	2 & bar & false & N/A \\
+	3 & baz & N/A & true \\
+	4 & baz & N/A & false \\
+	\hline
+	\end{tabular}
+	\end{table}
+\end{columns}
+
+\begin{center}
+Hacen falta 8 tests de integraci\'on y 4 unitarios \\
+	Entonces, \textquestiondown conviene usar tests de integraci\'on?
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}[t, shrink=25]{\textquestiondown Por qu\'e no?}
+\begin{center}
+	\huge
+	Los tests para ambas funciones son simples \\
+	Pero en conjunto andan muy mal!
+\end{center}
+
+\begin{columns}
+\column{.2\textwidth}
+	\begin{center}	\pgfuseimage{img/misc/happy-face-small} \end{center}
+\column{.8\textwidth}
+	test\_multiplicar\_manzanas ()
+\end{columns}
+
+\begin{columns}
+\column{.2\textwidth}
+	\begin{center}	\pgfuseimage{img/misc/happy-face-small} \end{center}
+\column{.8\textwidth}
+	test\_get\_peras ()
+\end{columns}
+
+\begin{columns}
+\column{.2\textwidth}
+	\begin{center}	\pgfuseimage{img/misc/sad-face-small} \end{center}
+\column{.8\textwidth}
+	multiplicar\_manzanas( get\_peras () )
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Stress tests}
+\begin{frame}[t]
+\frametitle{stress tests}
+\textquestiondown qu\'e son?
+\begin{itemize}
+	\item verifican el funcionamiento bajo carga
+	\item simulan un entorno de producci\'on
+	\item pocas veces son autom\'aticos
+\end{itemize}
+\begin{textblock*}{30mm}(-15mm,15mm)
+\pgfdeclareimage[height=4cm]{img/misc/stress}{img/misc/stress}
+\pgfuseimage{img/misc/stress}
+\end{textblock*}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Otras clasificaciones}
+
+\begin{frame}[fragile]{Orientado a los datos}
+Cuando armarmos un test:
+\begin{columns}[onlytextwidth]
+\column{.6\textwidth}
+	\begin{itemize}
+		\item Se toma un m\'odulo
+		\item Determinamos las entradas
+		\item Evaluamos las salidas
+		\item Buscamos casos l\'imite
+		\item Existe un contrato implicito
+	\end{itemize}
+\column{.4\textwidth}
+	\include{code/unit_test_div}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Orientado al comportamiento}
+Cuando armarmos un test (en un proyecto testeable):
+\begin{columns}[onlytextwidth]
+\column{.15\textwidth}
+	\pgfdeclareimage[height=4cm]{img/misc/yes-man}{img/misc/yes-man}
+	\pgfuseimage{img/misc/yes-man}
+\column{.85\textwidth}
+	\begin{itemize}
+		\item Pensamos en t\'ermino de objetos y relaciones
+		\item \ldots y no tanto en funci\'on de la entrada-salida
+		\item Los objetos tienen interfaces
+		\item \ldots e interactuan con otros objectos
+		\item Existe un contrato expl\'icito
+		\item No es necesario evaluar tantos casos limite
+	\end{itemize}
+\end{columns}
+\end{frame}
+

@@ -1,0 +1,57 @@
+format 58
+
+classcanvas 128069 class_ref 128069 // UsuarioV1
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 61 64 2000
+end
+usecasecanvas 128197 usecase_ref 128069 // Escribir texto
+  xyzwh 250 39 3005 64 32 label_xy 243 71
+end
+usecasecanvas 128325 usecase_ref 128197 // Guardar texto
+  xyzwh 250 111 3005 64 32 label_xy 242 143
+end
+classcanvas 128709 class_ref 128197 // UsuarioV2
+  class_drawing_mode default show_context_mode default show_stereotype_properties default
+  xyz 60 279 2000
+end
+usecasecanvas 128965 usecase_ref 128325 // Insertar Imagen
+  xyzwh 248 220 3005 64 32 label_xy 234 252
+end
+usecasecanvas 129093 usecase_ref 128453 // Imprimir
+  xyzwh 248 376 3005 64 32 label_xy 256 408
+end
+usecasecanvas 129733 usecase_ref 128581 // Undo/Redo
+  xyzwh 248 296 3005 64 32 label_xy 248 328
+end
+subject 131013 ""
+  xyzwh 42 26 2005 304 148
+subject 131141 ""
+  xyzwh 41 191 2000 305 238
+line 128453 --->
+  from ref 128069 z 1999 to ref 128197
+line 128581 --->
+  from ref 128069 z 1999 to ref 128325
+relationcanvas 128837 relation_ref 128069 // <generalisation>
+  from ref 128709 z 1999 to ref 128069
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+line 129221 --->
+  from ref 128709 z 1999 to ref 128965
+line 129349 --->
+  from ref 128709 z 1999 to ref 129093
+line 129861 --->
+  from ref 128709 z 1999 to ref 129733
+simplerelationcanvas 129989 simplerelation_ref 128069
+  geometry HVH unfixed
+  from ref 129733 z 3004 to point 355 309
+  line 130373 z 3004 to point 355 233
+  line 130501 z 3004 to ref 128965
+end
+simplerelationcanvas 130629 simplerelation_ref 128197
+  geometry HVH unfixed
+  from ref 129733 z 3004 to point 372 309
+  line 130757 z 3004 to point 372 52
+  line 130885 z 3004 to ref 128197
+end
+end

@@ -1,0 +1,129 @@
+\section{Introducci\'on}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Planteando el problema}
+
+
+\begin{frame}{Cuando escribimos software}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\pgfdeclareimage[height=5cm]{img/misc/escher-relativity}{img/misc/escher-relativity}
+	\pgfuseimage{img/misc/escher-relativity}
+\column{.5\textwidth}
+	\begin{itemize}
+		\item falta tiempo
+		\item hacemos suposiciones
+		\item el c\'odigo queda feo
+		\item proyectos legacy sin andar
+		\item falta tiempo de refactor
+	\end{itemize}
+\end{columns}
+\begin{center}
+	Por todo esto la calidad se degrada
+\end{center}
+\end{frame}
+
+\begin{frame}{Si bien no hay silver bullets}
+Veremos como, testeando, el proyecto sale mejor. Los tests:
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.15\textwidth}
+	\pgfdeclareimage[height=3cm]{img/misc/silver-bullet}{img/misc/silver-bullet}
+	\pgfuseimage{img/misc/silver-bullet}
+\column{.85\textwidth}
+	\begin{itemize}
+		\item generan confianza
+		\item permiten la detecci\'on temprana de bugs
+		\item ayudan a detectar inconsistencias en RQs
+		\item mejoran la productividad (a largo plazo)
+	\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Si bien no hay silver bullets}
+Veremos como, testeando, el proyecto sale mejor. \\
+\alert{ Siempre considerando que, los tests \ldots }
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.15\textwidth}
+	\pgfdeclareimage[height=3cm]{img/misc/silver-bullet}{img/misc/silver-bullet}
+	\pgfuseimage{img/misc/silver-bullet}
+\column{.85\textwidth}
+	\begin{itemize}
+		\item no garantizan el \'exito de un proyecto
+		\item no aseguran 100\% de calidad
+		\item no son aplicables a todo proyecto
+		\item obligan a pensar antes de programar! \footnote{Queda como ejercicio determinar si esto es bueno o no}
+	\end{itemize}
+\end{columns}
+\bigskip
+Pero, \textquestiondown Qu\'e es testing?
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{\textquestiondown Qu\'e es testing?}
+
+\begin{frame}{\textquestiondown Qu\'e es testing?}
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+	Testear el software es:
+	\begin{itemize}
+		\item validar su comportamiento
+		\item validar un set de datos
+		\item validar requerimientos
+		\item una forma de medir la calidad
+	\end{itemize}
+	\bigskip
+	Testear el software \alert{no} es:
+	\begin{itemize}
+		\item asegurar el \'exito del proyecto
+		\item afirmar que no hay bugs
+		\item "a silver bullet"
+	\end{itemize}
+\column{.3\textwidth}
+	\pgfdeclareimage[height=4cm]{img/misc/crash-dummy}{img/misc/crash-dummy}
+	\pgfuseimage{img/misc/crash-dummy}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[fragile,shrink=2]{Algunos "extras"}
+\bigskip
+El testing (o, mejor, TDD) ayuda a:
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+	\begin{itemize}
+		\item especificar requerimientos
+		\item especificar comportamiento
+		\item evitar regresiones
+		\item refactorizar
+	\end{itemize}
+\column{.5\textwidth}
+	\begin{flushright}
+		\pgfdeclareimage[height=3.5cm]{img/misc/test-drive}{img/misc/test-drive}
+		\pgfuseimage{img/misc/test-drive}
+	\end{flushright}
+\end{columns}
+
+\begin{textblock*}{30mm}(-15mm,-2mm)
+	\pgfdeclareimage[height=3.5cm]{img/misc/crash-dummies}{img/misc/crash-dummies}
+	\pgfuseimage{img/misc/crash-dummies}
+\end{textblock*}
+\end{frame}
+
+\begin{frame}{C\'omo testear}
+\begin{center}
+	Vimos muchos motivos, muy dispares \ldots \\ 
+	\textquestiondown todo eso con un test?
+\end{center}
+
+\begin{center}
+	No, hay distintos tipos. Veamos algunos.
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

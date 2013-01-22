@@ -1,0 +1,118 @@
+\section{Mocking}
+
+\begin{frame}[t]{Mocking: seguimos el ejemplo}
+Sigamos el ejemplo de DI. \textquestiondown Podemos mejoralo mas?
+\begin{itemize}
+	\item \textquestiondown Qu\'e estamos testeando?
+	\item \textquestiondown Queremos testear el objeto "Cuenta"?
+	\item \textquestiondown Y si Cuenta a\'un no est\'a implementado?
+	\item \textquestiondown O tiene muchos muchos bugs?
+	\item \textquestiondown O es muy lento? (P. ej: accede a la BD)
+\end{itemize}
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Mocking es la soluci\'on!
+\end{beamercolorbox}
+\end{frame}
+
+\begin{frame}{Mocking}
+\textquestiondown Pero qu\'e es "mocking"?
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+	\begin{itemize}
+		\item t\'ecnica para testear
+		\item un mock es un objeto "dummy"
+		\item son "fakes" de partes del sistema 
+		\item definen su comportamiento "on the fly"
+		\item usan la interfaz de un objeto real
+	\end{itemize}
+\column{.3\textwidth}
+	\pgfdeclareimage[height=3cm]{img/misc/mockingbird}{img/misc/mockingbird}
+	\pgfuseimage{img/misc/mockingbird}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Herencia, polimorfismo y Mocking}
+
+\begin{frame}[t]{C\'omo funciona}
+\begin{itemize}
+	\item Se basa en el polimorfismo
+	\item El Objeto testeable usa un objeto "mockeable"
+	\item El mock hereda de una interfaz com\'un al objeto real
+	\item Al objeto testeable no le "importa" cual de los dos usa
+\end{itemize}
+\bigskip
+\begin{center}
+	\pgfdeclareimage[height=3cm]{ejemplo1/mocking}{ejemplo1/mocking}
+	\pgfuseimage{ejemplo1/mocking}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{C\'omo funciona}
+\begin{itemize}
+	\item El objeto testeado no sabe si es una implementaci\'on real
+	\item Tampoco importa, el mock usa la interfaz conocida
+	\item Es un concepto similar al de usar varias implementaciones
+\end{itemize}
+\bigskip
+\begin{center}
+	\pgfdeclareimage[height=3.5cm]{ejemplo1/mocking_example}{ejemplo1/mocking_example}
+	\pgfuseimage{ejemplo1/mocking_example}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{DI y Mocking}
+\begin{frame}[t]{Por qu\'e DI + Mocking}
+\bigskip
+
+\begin{columns}[onlytextwidth]
+\column{.7\textwidth}
+	\begin{itemize}
+		\item DI obliga a separar componentes
+		\item Para testear hace falta aislar m\'odulos
+		\item Aislar m\'odulo $\implies$ sacar dependencias
+		\item Mocking permite simular otros m\'odulos
+
+		\item Ergo \ldots
+	\end{itemize}
+\column{.3\textwidth}
+	\begin{flushright}
+		\pgfdeclareimage[height=2cm]{img/misc/tester}{img/misc/tester}
+		\pgfuseimage{img/misc/tester}
+	\end{flushright}
+\end{columns}
+\bigskip
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Mocking + DI r0ck\$!!!!!11uno1
+\end{beamercolorbox}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Ejemplos}
+
+\begin{frame}{Mocking: seguimos el ejemplo II}
+	Veamos como queda el ejemplo
+	\include{code/mocking}
+\end{frame}
+
+\begin{frame}{Mocking: ejemplo explicado}
+Algunos detalles del ejemplo:
+\include{code/mocking_detail}
+\begin{itemize}
+	\item El comportamiento se define con el mismo test
+	\item Se define un set de "expectations"
+	\item Las expectations son tests \\
+		\begin{itemize}
+			\item cada una debe cumplirse
+			\item verifican el comportamiento del objeto
+		\end{itemize}
+	\item Usando DI podemos inyectar una cuenta falsa
+	\item \ldots ser\'ia posible de no usar DI?
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,0 +1,104 @@
+\section{Mocking avanzado}
+
+\begin{frame}[shrink=2]{Un ejemplo, con 40\% mas DI y su test}
+\textit{ Est\'a quedando un poco mejor pero todav\'ia}
+\bigskip
+\begin{itemize}
+	\item No llegamos a testear todas las ramas
+	\item Dependemos de la implementaci\'on de socket
+	\item El fixture ya no es necesario!
+\end{itemize}
+\bigskip
+\begin{center}
+	Arreglemos estos problemas y veamos como queda el test!
+\end{center}
+\end{frame}
+
+
+\begin{frame}[shrink=2]{Un ejemplo, con 80\% mas DI}
+\include{code/protocol3}
+\end{frame}
+
+\begin{frame}[shrink=2]{Un ejemplo, con 80\% mas DI y su test}
+\begin{itemize}
+	\item Nuestro fixture desaparece
+	\item Lo reemplazamos por un header con mocks
+\end{itemize}
+\include{code/protocol3_ut1}
+\end{frame}
+
+\begin{frame}[shrink]{Un ejemplo, con 80\% mas DI y su test}
+\include{code/protocol3_ut1b}
+\end{frame}
+
+\begin{frame}[shrink]{Un ejemplo, con 80\% mas DI y su test}
+\include{code/protocol3_ut1c}
+\end{frame}
+
+\begin{frame}[shrink]{Un ejemplo, con 80\% mas DI y su test}
+Ahora podemos agregar este test:
+\include{code/protocol3_ut1d}
+\end{frame}
+
+
+\begin{frame}[fragile,shrink]{Dos bugs nuevos}
+\begin{semiverbatim}
+Running main() from gtest_main.cc
+{\color[rgb]{0,1,0}[==========]} Running 3 tests from 1 test case.
+{\color[rgb]{0,1,0}[---------------]} Global test environment set-up.
+{\color[rgb]{0,1,0}[---------------]} 3 tests from Handshake
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[       OK ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.RecvFail
+test5.cpp:10: Failure
+Value of: saludador.saludar()
+  Actual: true
+Expected: false
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.RecvFail
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.SendFail
+test5.cpp:13: Failure
+Mock function called more times than expected - returning default value.
+    Function call: recv_n(0xbff360f8, 0, 0, 0xbff360ec)
+          Returns: 0
+         Expected: to be never called
+           Actual: called once - over-saturated and active
+test5.cpp:16: Failure
+Value of: saludador.saludar()
+  Actual: true
+Expected: false
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.SendFail
+{\color[rgb]{0,1,0}[---------------]} Global test environment tear-down
+{\color[rgb]{0,1,0}[==========]} 3 tests from 1 test case ran.
+{\color[rgb]{0,1,0}[  PASSED  ]} 1 test.
+{\color[rgb]{1,0,0}[  FAILED  ]} 2 tests, listed below:
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.RecvFail
+{\color[rgb]{1,0,0}[  FAILED  ]} Handshake.SendFail
+
+ 2 FAILED TESTS
+\end{semiverbatim}
+\end{frame}
+
+
+
+\begin{frame}[shrink]{Ejemplo arreglado}
+\include{code/protocol4}
+\end{frame}
+
+
+\begin{frame}[fragile,shrink]{Ejemplo arreglado: resultados}
+\begin{semiverbatim}
+Running main() from gtest_main.cc
+{\color[rgb]{0,1,0}[==========]} Running 3 tests from 1 test case.
+{\color[rgb]{0,1,0}[---------------]} Global test environment set-up.
+{\color[rgb]{0,1,0}[---------------]} 3 tests from Handshake
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[       OK ]} Handshake.TxOK
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.RecvFail
+{\color[rgb]{0,1,0}[       OK ]} Handshake.RecvFail
+{\color[rgb]{0,1,0}[ RUN      ]} Handshake.SendFail
+{\color[rgb]{0,1,0}[       OK ]} Handshake.SendFail
+{\color[rgb]{0,1,0}[---------------]} Global test environment tear-down
+{\color[rgb]{0,1,0}[==========]} 3 tests from 1 test case ran.
+{\color[rgb]{0,1,0}[  PASSED  ]} 3 test.
+\end{semiverbatim}
+\end{frame}

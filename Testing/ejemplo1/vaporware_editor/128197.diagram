@@ -1,0 +1,25 @@
+format 58
+
+classcanvas 128069 class_ref 128325 // Documento
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 162 81 2000
+end
+classcanvas 128197 class_ref 128453 // Parrafo
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 423 111 2000
+end
+classcanvas 128453 class_ref 128581 // Pantalla_Facade
+  draw_all_relations default hide_attributes default hide_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_multiplicity default show_members_initialization default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_infonote default shadow default show_stereotype_properties default
+  xyz 197 266 2000
+end
+relationcanvas 128325 relation_ref 128197 // <aggregation>
+  from ref 128069 z 1999 to ref 128197
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+relationcanvas 128581 relation_ref 128325 // <composition>
+  from ref 128453 z 1999 to ref 128069
+  no_role_a no_role_b
+  no_multiplicity_a no_multiplicity_b
+end
+end

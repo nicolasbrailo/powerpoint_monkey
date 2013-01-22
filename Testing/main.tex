@@ -1,0 +1,111 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{textpos}
+\include{code/inc_pygments}
+
+\institute[IWay Tech Talks]{IWay Tech Talks}
+\date[] {\today}
+
+\title[Testing y Mocking]{Testing y Mocking: Probando Aplicaciones}
+\subtitle{}
+\author[]{ }
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{Test Driven Development: Testing y Mocking}
+
+\pgfdeclareimage[height=1.5cm]{img/logos/gtest_logo}{img/logos/gtest_logo}
+\pgfdeclareimage[height=4cm]{img/logos/gtest_logo_big}{img/logos/gtest_logo_big}
+\logo{\pgfuseimage{img/logos/gtest_logo}}
+
+\pgfdeclareimage[height=2cm]{img/misc/happy-face}{img/misc/happy-face}
+\pgfdeclareimage[height=2cm]{img/misc/sad-face}{img/misc/sad-face}
+\pgfdeclareimage[height=1cm]{img/misc/happy-face-small}{img/misc/happy-face}
+\pgfdeclareimage[height=1cm]{img/misc/sad-face-small}{img/misc/sad-face}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=hide]
+  \end{frame}
+}
+
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\begin{center} \pgfuseimage{img/logos/gtest_logo_big} \end{center}
+	\rule{0em}{5pt}
+
+	\setbeamercolor{title}{fg=white,bg=teal}
+	\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+		\inserttitle
+	\end{beamercolorbox}
+
+	\begin{columns}[onlytextwidth]
+	\column{.5\textwidth}
+		\begin{center}
+			\pgfdeclareimage[height=1cm]{img/logos/intraway}{img/logos/intraway}
+			\pgfuseimage{img/logos/intraway}
+		\end{center}
+	\column{.5\textwidth}
+		\begin{center} {\color{orange} \insertinstitute }  \end{center}
+	\end{columns}
+
+	\begin{center}
+		{\color{orange} 
+			% \insertauthor \\
+			\rule{0em}{8pt}
+			\insertdate
+		}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+
+\input{introduccion}
+\input{tipos_de_tests}
+\input{inyeccion_de_dependencias}
+\input{mocking}
+
+\begin{frame}[plain]{\textquestiondown Preguntas?}
+	\begin{center}
+		\pgfdeclareimage[height=6cm]{img/misc/questions}{img/misc/questions}
+		\pgfuseimage{img/misc/questions}
+	\end{center}
+	\only<2>{
+		\begin{flushright}
+		\begin{textblock*}{30mm}(90mm,-25mm)
+			\pgfdeclareimage[height=3cm]{img/misc/toilet}{img/misc/toilet}
+			\pgfuseimage{img/misc/toilet}
+		\end{textblock*}
+		\end{flushright}
+	}
+\end{frame}
+
+\end{document}

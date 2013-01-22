@@ -1,0 +1,94 @@
+\section{Inyecci\'on de dependencias, DI}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Qu\'e es DI}
+\begin{frame}[t]{Empecemos con un ejemplo}
+\textquestiondown Qu\'e pasa cuando corremos el test?
+\begin{columns}
+\column{.7\textwidth}
+	\include{code/why_di_1}
+\column{.3\textwidth}
+	\only<2>{
+		\begin{center}
+			\pgfuseimage{img/misc/sad-face-small} \\
+			\alert{ Null ptr exception }
+		\end{center}
+	}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}[shrink=2,t]{\textquestiondown Qu\'e hay en la clase Venta?}
+\include{code/why_di_2}
+\end{frame}
+
+\begin{frame}[shrink=2]{Arreglemos el test\ldots}
+\include{code/why_di_3}
+\end{frame}
+
+\begin{frame}{Arreglemos el test\ldots}
+En el test se reflejan varios problemas
+\bigskip
+\begin{columns}[onlytextwidth]
+\column{.3\textwidth}
+	\pgfdeclareimage[height=4cm]{img/misc/scaffolding}{img/misc/scaffolding}
+	\pgfuseimage{img/misc/scaffolding}
+\column{.7\textwidth}
+	\begin{itemize}
+		\item Hay mucho "scaffolding"
+		\item El sentido del test se pierde
+		\item Hay dependencias ocultas
+		\item Se accede a mas objetos que los necesarios
+		\item El scope demasiado grande
+	\end{itemize}
+\end{columns}
+\end{frame}
+
+\subsection{Para qu\'e usar DI}
+
+\begin{frame}{Podemos mejorar el dise\~no con DI}
+\textit{ La inyecci\'on de dependencias }
+\bigskip
+\begin{columns}
+\column{.7\textwidth}
+	\begin{itemize}
+		\item separa la construcci\'on del uso
+		\item hace explicitas las dependencias
+		\item ayuda a simplificar la l\'ogica
+		\item limita el scope de un objeto
+		\item reduce el factor sorpresa!
+	\end{itemize}
+\column{.3\textwidth}
+	\pgfdeclareimage[height=3cm]{img/misc/di}{img/misc/di}
+	\pgfuseimage{img/misc/di}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Dependency Injection Demystified}
+La inyecci\'on de dependencias es en realidad muy simple
+\bigskip \\
+\bigskip
+\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+	Ask for what you need
+\end{beamercolorbox}
+\bigskip
+\begin{itemize}
+	\item A un objeto se le dan sus dependencias
+	\item El objeto inyectado no crea sus propias dependencias
+	\item No mas singletons ni ServiceLocators
+	\item Chau estado global
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{DI aplicado}
+\begin{frame}[shrink=2]{Resultados}
+	\include{code/why_di_4}
+\end{frame}
+
+\begin{frame}{Resultados}
+	No solo el c\'odigo es mas prolijo, el test tambi\'en
+	\include{code/why_di_5}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
