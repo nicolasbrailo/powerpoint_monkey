@@ -1,0 +1,634 @@
+\documentclass{beamer}
+% \documentclass[draft]{beamer}
+
+% Vista para impresión
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{8 on 1}[a4paper,border shrink=5mm]
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \useinnertheme{rounded}
+  \setbeamerfont{title}{shape=\itshape,family=\rmfamily}
+  \setbeamercovered{transparent}
+}
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\institute[IWay Tech Talks]{IWay Tech Talks}
+
+\date[] {\today}
+
+\title[Valgrind]{Valgrind: Profiling y debugging}
+\subtitle{}
+\author[]{Nicol\'as Brailovsky}
+
+% This is only inserted into the PDF information catalog. Can be left out. 
+\subject{Valgrind: Profiling y debugging para C/C++}
+
+
+\pgfdeclareimage[height=1cm]{valgrind_logo}{valgrind_logo}
+\pgfdeclareimage[height=4cm]{valgrind_logo_big}{valgrind_logo_big}
+\logo{\pgfuseimage{valgrind_logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}[plain]
+	\begin{center} \pgfuseimage{valgrind_logo_big} \end{center}
+	\rule{0em}{5pt}
+
+	\setbeamercolor{title}{fg=white,bg=teal}
+	\begin{beamercolorbox}[sep=.1cm,shadow=true,rounded=true,center]{title}
+		\inserttitle
+	\end{beamercolorbox}
+
+	\begin{columns}[onlytextwidth]
+	\column{.5\textwidth}
+		\begin{center}
+			\pgfdeclareimage[height=1cm]{intraway}{intraway}
+			\pgfuseimage{intraway}
+		\end{center}
+	\column{.5\textwidth}
+		\begin{center} {\color{orange} \insertinstitute }  \end{center}
+	\end{columns}
+
+	\begin{center}
+		{\color{orange} 
+			\insertauthor \\
+			\rule{0em}{8pt}
+			\insertdate
+		}
+	\end{center}
+\end{frame}
+
+\begin{frame}
+  \tableofcontents
+\end{frame}
+
+
+\section{Introducci\'on}
+
+\begin{frame}{\textquestiondown Qu\'e es?}
+\begin{itemize}
+  \item Paquete de herramientas para analizar un programa en ejecuci\'on
+  \begin{itemize}
+    \item Memoria
+    \item Performance
+    \item File descriptors
+    \item Race conditions
+    \item \ldots
+  \end{itemize}
+  \item Un framework para desarrollar herramientas de an\'alisis
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\textquestiondown Para qu\'e utilizarlo?}
+\begin{itemize}
+  \item Complemento a herramientas de an\'alisis est\'atico
+  \item Complemento para el gdb
+  \item Detectar problemas "aleatorios"
+  \item Detectar problemas que requieren largo tiempo de ejecuci\'on
+\end{itemize}
+\begin{center}
+  \pgfdeclareimage[height=4cm]{debiancat3}{debiancat3}
+  \pgfuseimage{debiancat3}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]
+        \frametitle{\textquestiondown C\'omo funciona?}
+\begin{itemize}
+  \item Se crean wrappers para los syscall y para malloc/free 
+  \item Cada bloque del heap lleva guardas
+  \item Simula una CPU: analiza cada instrucci\'on
+  \item Cada herramienta puede agregar distintas caracteristicas
+\end{itemize}
+\only<2> {
+  \begin{center}
+    \pgfdeclareimage[height=4cm]{gandalf}{gandalf}
+    \pgfuseimage<2>{gandalf}
+  \end{center}
+}
+\only<3>{
+  \textit{ Gandalf dice: }
+  \begin{center} \textit{
+    Una aplicaci\'on bajo Valgrind consume ~ el \alert{triple de memoria} y
+    es \alert{25 a 50 veces mas lento}
+  } \end{center}
+}
+\end{frame}
+
+
+\section{Uso general}
+
+\begin{frame}{Flags generales}
+\begin{itemize}
+  \item \textit{ --tool=<toolname> } Herramienta a utilizar
+  \item \textit{ --log-file=<archivo> } Redirigir la salida de Valgrind
+  \item \textit{ --trace-children } Seguir un hijo despu\'es de fork/exec
+  \item \textit{ --track-fds } Lista los FDs en uso 
+  \item \textit{ --track-origins } Mostrar origen de valores no inicializados (V 3.4+)
+  \item \textit{ -v } Verbose 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Verificaciones comunes}
+Independientemente de la herramienta, Valgrind \ldots
+\begin{itemize}
+  \item detecta una terminaci\'on erronea (segfaults!)
+  \item advierte si existen memory leaks
+  \item lleva cuenta de los file descriptors (con \textit{--track-fds})
+  \item es lento
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Letra chica}
+Independientemente de la herramienta, Valgrind \ldots
+\begin{itemize}
+  \item no se lleva bien con las variables est\'aticas
+  \item tiene un limite de threads
+  \item \alert{ es lento! }
+\end{itemize}
+\end{frame}
+
+
+\section{Memcheck}
+
+\begin{frame}{Memcheck: Introducci\'on}
+\begin{itemize}
+  \item Herramienta por default
+  \item Busca memory leaks
+  \item Detecta la utilizaci\'on de variables no inicializadas
+  \item Advierte buffer overruns y problemas similares
+\end{itemize}
+\rule{0em}{20pt}
+\pgfdeclareimage[height=2.5cm]{firefoxmemoryleak}{firefoxmemoryleak}
+\pgfuseimage{firefoxmemoryleak}
+\end{frame}
+
+\begin{frame}[fragile, shrink=25]
+\frametitle{Memcheck: Off by one}
+\begin{semiverbatim}
+\{
+  char *msg = new char[4];
+  strcpy(msg, "hola");
+\}
+\end{semiverbatim}
+
+Error en valgrind:
+\begin{semiverbatim}
+\alert{ Invalid write } of size 1
+   at 0x4024BD7: memcpy (mc_replace_strmem.c:402)
+   by 0x80484DE: main \alert{ (main.cpp:5) }
+ Address 0x42ae02c is \alert{ 0 bytes after a block of size 4 alloc'd }
+   at 0x4022F14: operator new[](unsigned) (vg_replace_malloc.c:268)
+   by 0x80484C0: main \alert{ (main.cpp:4) }
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=25]
+\frametitle{Memcheck: Memory leak}
+\textit{ Ejecutando el programa con --leack-check=full }
+\begin{semiverbatim}
+\{
+  char *msg = new char[4];
+  strcpy(msg, "hola");
+\}
+\end{semiverbatim}
+
+Error en valgrind:
+\begin{semiverbatim}
+\alert{5 bytes in 1 blocks are definitely lost} in loss record 1 of 1
+   at 0x4022F14: operator new[](unsigned) (vg_replace_malloc.c:268)
+   by 0x80484C0: \alert{main (main.cpp:4)}
+
+LEAK SUMMARY:
+   \alert{ definitely lost: 5 bytes in 1 blocks. }
+     possibly lost: 0 bytes in 0 blocks.
+   still reachable: 0 bytes in 0 blocks.
+        suppressed: 0 bytes in 0 blocks.
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=25]
+\frametitle{Memcheck: Free/delete}
+\begin{semiverbatim}
+\{
+  char *msg = new char[5];
+  strcpy(msg, "hola");
+  free(msg);
+\}
+\end{semiverbatim}
+
+Error en valgrind:
+\begin{semiverbatim}
+\alert{Mismatched free() / delete / delete} []
+   at 0x402265C: free (vg_replace_malloc.c:323)
+   by 0x8048519: \alert{main (main.cpp:7)}
+ Address 0x42ae028 is 0 bytes inside a block of size 5 alloc'd
+   at 0x4022F14: operator new[](unsigned) (vg_replace_malloc.c:268)
+   by 0x80484F0: main (main.cpp:5)
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=25]
+\frametitle{Memcheck: Uninitialised value / SIGSEGV}
+\begin{semiverbatim}
+\{
+  char *msg;
+  strcpy(msg, "hola");
+  free(msg);
+\}
+\end{semiverbatim}
+
+Error en valgrind:
+\begin{semiverbatim}
+\alert{ Conditional jump or move depends on uninitialised value(s) }
+   at 0x4024AC5: memcpy (mc_replace_strmem.c:77)
+   by 0x804846F: main \alert{ (main.cpp:6) }
+
+\alert{ Conditional jump or move depends on uninitialised value(s) }
+   at 0x4024B7C: memcpy (mc_replace_strmem.c:80)
+   by 0x804846F: main \alert{ (main.cpp:6) }
+...
+\alert{ Process terminating with default action of signal 11 (SIGSEGV) }
+ Bad permissions for mapped region at address 0x400DDB0
+   at 0x4024BA8: memcpy (mc_replace_strmem.c:402)
+   by 0x804846F: \alert{ main (main.cpp:6) }
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=25]
+\frametitle{Memcheck: Variable est\'atica}
+\begin{semiverbatim}
+char msg[4];
+int main() \{
+  strcpy(msg, "hola");
+  return 0;
+\}
+\end{semiverbatim}
+
+Error en valgrind:
+\begin{center}
+  \pgfdeclareimage[height=4cm]{404}{404}
+  \pgfuseimage{404}
+\end{center}
+\end{frame}
+
+\begin{frame}{Memcheck: conclusi\'on}
+\begin{itemize}
+  \item Una de las herramientas mas pr\'acticas
+  \item Detecta el error y su origen
+  \item Sencilla de utilizar
+\end{itemize}
+\textit{Para tener en cuenta}
+\begin{itemize}
+  \item Requiere compilar con -g (para ver la linea del error)
+  \item No se lleva bien con -On: las optimizaciones generan falsos positivos
+  \item No controla variables est\'aticas
+\end{itemize}
+\end{frame}
+
+
+
+\section{Callgrind}
+
+\begin{frame}{Callgrind: introducci\'on}
+\begin{itemize}
+  \item Extensi\'on de cachegrind
+  \item Profiler para cache L1 y L2
+  \item Crea un profile de cada funci\'on utilizada
+  \item Permite generar gr\'aficos de llamada a partir de stacktraces
+\end{itemize}
+\rule{0em}{40pt}
+\textit{ Para tener en cuenta \ldots }
+\begin{itemize}
+  \item es necesario utilizar KCacheGrind para interpretar los resultados
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Callgrind: ejemplo}
+Gr\'afico de llamadas generado con KCacheGrind
+\begin{center}
+  \pgfdeclareimage[height=4cm]{callgraph}{callgraph}
+  \pgfuseimage{callgraph}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Callgrind: ejemplo}
+Utilizaci\'on del cache
+\begin{verbatim}
+--18822-- LRU Contxt Misses: 1672
+--18822-- LRU BBCC Misses:   16
+--18822-- LRU JCC Misses:    384
+--18822-- BBs Executed:      717200001
+--18822-- Calls:             281943034
+--18822-- CondJMP followed:  0
+--18822-- Boring JMPs:       0
+--18822-- Recursive calls:   6
+--18822-- Returns:           281943034
+\end{verbatim}
+\uncover<2>{ \begin{center} \alert{ RTFM } \end{center} }
+\end{frame}
+
+\begin{frame}{Callgrind: ejemplo}
+Profiling de una aplicaci\'on (KCacheGrind)
+\begin{center}
+  \pgfdeclareimage[height=4cm]{call_usagegraph}{call_usagegraph}
+  \pgfuseimage{call_usagegraph}
+\end{center}
+\rule{0em}{5pt}
+\textquestiondown Qu\'e estar\'a haciendo zort()?
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Callgrind: Ejemplo}
+\begin{semiverbatim}
+void {\color{green}zort}(vector<double> \&data) \{
+  while (!{\color{green}sorted}(data))
+    random_shuffle(data.begin(), data.end());
+\}
+\end{semiverbatim}
+\begin{center} Parece que bogosort no es un buen algoritmo... \end{center}
+\end{frame}
+
+\begin{frame}{Callgrind: conclusi\'on}
+\begin{itemize}
+  \item Muestra que m\'etodos son hojas en el callgraph
+  \item En una aplicaci\'on real callgrind encuentra bottlenecks
+\end{itemize}
+\end{frame}
+
+
+
+\section{Massif}
+
+\begin{frame}{Massif}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+  Massif sirve como \ldots
+  \begin{itemize}
+    \item Memory profiler
+  \end{itemize}
+\column{.5\textwidth}
+  \pgfdeclareimage[height=3cm]{elephant}{elephant}
+  \pgfuseimage{elephant}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Massif: Ejemplo}
+Implementemos este cambio para ver si Callgrind funciona bien
+\begin{semiverbatim}
+ \alert{ long } {\color{green}zort}(vector<double> \&data) \{
+  \alert{ vector< vector<double> > intentos; }
+
+  while (!{\color{green}sorted}(data)) \{
+    std::random_shuffle(data.begin(), data.end());
+    \alert{ intentos.push_back(vector<double>(data)); }
+  \}
+
+  \alert{ return intentos.size(); }
+\}
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=45]
+\frametitle{Massif: Ejemplo}
+  Funciona, bogosort parece ser el culpable, pero \textquestiondown que pas\'o con la memoria?
+\begin{verbatim}
+    MB
+106.0^                                      #                                 
+     |                                      #                                 
+     |                                     :#                          ,::::  
+     |                                     :#                      ..::@::::  
+     |                                    .:#                   . :::::@::::  
+     |                                    ::#                .::: :::::@::::  
+     |                                    ::#            .:: :::: :::::@::::  
+     |                                   .::#        . ::::: :::: :::::@::::  
+     |                                   :::#     , :: ::::: :::: :::::@::::  
+     |                                   :::# ., :@ :: ::::: :::: :::::@::::  
+     |                   @               :::# :@ :@ :: ::::: :::: :::::@::::: 
+     |                   @            . ::::# :@ :@ :: ::::: :::: :::::@::::: 
+     |                   @        ..::: ::::# :@ :@ :: ::::: :::: :::::@::::: 
+     |                 . @     .: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::: 
+     |                 : @  : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+     |                .: @: : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+     |             .. :: @: : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+     |         :.:::: :: @: : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+     |    .. . :::::: :: @: : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+     |  ..:: : :::::: :: @: : ::: ::::: ::::# :@ :@ :: ::::: :::: :::::@::::::
+   0 +----------------------------------------------------------------------->Gi
+     0                                                                   4.714
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=45]
+\frametitle{Massif: Ejemplo}
+De los 106 MB, un 92\% corresponde a vector, reservado en \alert{massif.cpp:29}
+\begin{verbatim}
+92.45% (6,422,768B) (heap allocation functions) malloc/new/new[], --alloc-fns, etc.
+->75.47% (5,243,120B) 0x8049561: __gnu_cxx::new_allocator<double>::allocate(unsigned, [...]
+| ->75.47% (5,243,120B) 0x8049585: std::_Vector_base<double, std::allocator<double> [...]
+[...]
+|     
+->16.98% (1,179,648B) 0x804963B: __gnu_cxx::new_allocator<std::vector<double, [...]
+    [...]
+        ->16.98% (1,179,648B) 0x8048C19: zort(std::vector<double, std::allocator<double> >&) (massif.cpp:18)
+          ->16.98% (1,179,648B) 0x8048D48: main (massif.cpp:29)
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=45]
+\frametitle{Massif: Un ejemplo mas completo}
+\begin{verbatim}
+    MB
+2.033^                                    .      #      .      .      .      .
+     |                                    :      #      :      :      :      :
+     |                                    :      #      :      :      :      @
+     |                                    :      #      :      :      :      @
+     |                                    :      #      :      :      :      @
+     |       @      ,      .      :      .:      #      :      :      :      @
+     |       @      @      :      :      ::      #      :      :      :      @
+     |       @      @      :      :      ::      #      :      :      :      @
+     |       @      @      :      :      ::      #      :      :      :      @
+     |       @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+     |@      @      @      :      :      ::      #      :      :      :      @
+   0 +----------------------------------------------------------------------->Gi
+     0                                                                   7.850
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile, shrink=45]
+\frametitle{Massif: Un ejemplo mas completo}
+Memoria utilizada
+\begin{semiverbatim}
+99.48\% (1,605,440B) (heap allocation functions) malloc/new/new, --alloc-fns, etc.
+->65.48\% (1,056,768B) 0x80497B5: math::matrix<double>::base_mat::base_mat(unsigned, unsigned, double**) (in valgrind/mkv3)
+| ->64.97\% (1,048,576B) 0x8049834: math::matrix<double>::matrix(unsigned, unsigned) (in valgrind/mkv3)
+| | ->64.97\% (1,048,576B) 0x804A475: math::matrix<double>::operator*=(math::matrix<double> const\&) (in valgrind/mkv3)
+| | | ->64.97\% (1,048,576B) 0x804A6CD: Mkv::get_tr_matrix() (in valgrind/mkv3)
+| | |   ->32.49\% (524,288B) 0x804A864: Mkv::compare_to(Mkv\&) (in valgrind/mkv3)
+| | |   | ->32.49\% (524,288B) 0x8049295: main (in valgrind/mkv3)
+| | |   |   
+| | |   \alert{ ->32.49\% (524,288B) 0x804A879: Mkv::compare_to(Mkv\&) (in valgrind/mkv3) }
+| | |     ->32.49\% (524,288B) 0x8049295: main (in valgrind/mkv3)
+| | |       
+| | ->00.00\% (0B) in 1+ places, all below ms_print's threshold (01.00\%)
+| | 
+| ->00.51\% (8,192B) in 1+ places, all below ms_print's threshold (01.00\%)
+|
+->32.49\% (524,288B) 0x804960D: math::matrix<long>::base_mat::base_mat(unsigned, unsigned, long**) (in valgrind/mkv3)
+| ->32.49\% (524,288B) 0x804968C: math::matrix<long>::matrix(unsigned, unsigned) (in valgrind/mkv3)
+|  \alert{ ->32.49\% (524,288B) 0x8049AFE: Mkv::Mkv<unsigned char>(Tokenizer<unsigned char>\&) (in valgrind/mkv3) }
+|     ->16.24\% (262,144B) 0x8049239: main (in valgrind/mkv3)
+|     | 
+|     ->16.24\% (262,144B) 0x804927D: main (in valgrind/mkv3)
+|       
+->01.02\% (16,384B) 0x40937EB: std::basic_filebuf<char, std::char_traits<char> >::_M_allocate_internal_buffer() (in /usr/lib/libstdc++.so.6.0.9)
+| ->01.02\% (16,384B) 0x4097231: std::basic_filebuf<char, std::char_traits<char> >::open(char const*, std::_Ios_Openmode) (in /usr/lib/libstdc++.so.6.0.9)
+|   ->01.02\% (16,384B) 0x4097C0E: std::basic_ifstream<char, std::char_traits<char> >::basic_ifstream(char const*, std::_Ios_Openmode) (in /usr/lib/libstdc++.so.6.0.9)
+|     ->01.02\% (16,384B) 0x8049499: FileTokenizer<unsigned char>::FileTokenizer(char const*) (in valgrind/mkv3)
+|       \alert{ ->01.02\% (16,384B) 0x80494B3: CharTokenizer::CharTokenizer(char const*) (in valgrind/mkv3) }
+|         ->01.02\% (16,384B) in 2 places, all below massif's threshold (01.00\%)
+|           
+->00.50\% (8,000B) in 1+ places, all below ms_print's threshold (01.00\%)
+
+\end{semiverbatim}
+\end{frame}
+
+
+\begin{frame}{Massif: conclusi\'on}
+\begin{itemize}
+  \item Herramienta complementaria a Callgrind
+  \item Permite detectar bottlenecks
+  \item Los cambios en la \'ultima versi\'on no generan postscript
+  \item El formato actual es horrible!
+\end{itemize}
+\end{frame}
+
+
+
+\section{Helgrind}
+
+\begin{frame}{Helgrind: Introducci\'on}
+\begin{columns}[onlytextwidth]
+\column{.5\textwidth}
+  \pgfdeclareimage[height=4cm]{deadlock}{deadlock}
+  \pgfuseimage{deadlock}
+\column{.5\textwidth}
+  Helgrind muestra \ldots
+  \begin{itemize}
+    \item condiciones de carrera
+    \item deadklocks
+  \end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Helgrind: Ejemplo}
+Programa de ejemplo:
+\begin{semiverbatim}
+
+class {\color{green}Hormiguita} : public {\color{green}ACE_Task_Base} \{
+  public:
+  int \&num;
+  {\color{green}Hormiguita}(int \&num) : num(num) \{
+    activate(..., 10);
+  \}
+
+  int svc() \{
+    \alert{ while (num < 1000) num++; }
+    return 0;
+  \}
+\};
+\end{semiverbatim}
+\end{frame}
+
+\begin{frame}[fragile,shrink=35]
+\frametitle{Helgrind: Ejemplo}
+\small{
+\begin{semiverbatim}
+==2404== Possible \alert{data race during read} of size 4 at 0xbee16e78 by thread #3
+==2404==    at 0x8049D4D: Worker::svc() \alert{(helgrind.cpp:20)}
+==2404==    by 0x413D551: ACE_Task_Base::svc_run(void*) (Task.cpp:275)
+==2404==    by 0x413E287: ACE_Thread_Adapter::invoke_i() (Thread_Adapter.cpp:149)
+==2404==    by 0x413E465: ACE_Thread_Adapter::invoke() (Thread_Adapter.cpp:98)
+==2404==    by 0x40CC2D0: ace_thread_adapter (Base_Thread_Adapter.cpp:124)
+==2404==    by 0x4026BFE: mythread_wrapper (hg_intercepts.c:194)
+==2404==    by 0x441F4FA: start_thread (in /lib/tls/i686/cmov/libpthread-2.7.so)
+==2404==    by 0x43A1E5D: clone (in /lib/tls/i686/cmov/libc-2.7.so)
+==2404==  This \alert{conflicts with a previous write} of size 4 by thread #2
+==2404==    at 0x8049D44: Worker::svc() \alert{(helgrind.cpp:20)}
+==2404==    by 0x413D551: ACE_Task_Base::svc_run(void*) (Task.cpp:275)
+==2404==    by 0x413E287: ACE_Thread_Adapter::invoke_i() (Thread_Adapter.cpp:149)
+==2404==    by 0x413E465: ACE_Thread_Adapter::invoke() (Thread_Adapter.cpp:98)
+==2404==    by 0x40CC2D0: ace_thread_adapter (Base_Thread_Adapter.cpp:124)
+==2404==    by 0x4026BFE: mythread_wrapper (hg_intercepts.c:194)
+==2404==    by 0x441F4FA: start_thread (in /lib/tls/i686/cmov/libpthread-2.7.so)
+==2404==    by 0x43A1E5D: clone (in /lib/tls/i686/cmov/libc-2.7.so)
+\end{semiverbatim}
+}
+\end{frame}
+
+\begin{frame}{Helgrind: conclusi\'on}
+\begin{itemize}
+  \item Una excelente idea, pero \ldots
+  \item el S/N ratio es muy bajo, mas a\'un en ACE \footnote{ \\
+        En el slide anterior solo se muestra una parte del log}
+\end{itemize}
+\end{frame}
+
+
+
+% All of the following is optional and typically not needed. 
+\appendix
+\section<presentation>*{\appendixname}
+\subsection<presentation>*{Further reading}
+
+\begin{frame}[allowframebreaks]
+  \frametitle<presentation>{Further reading}
+    
+  \begin{thebibliography}{10}
+    
+  \beamertemplatebookbibitems
+  \bibitem{RTFM}
+    RTFM
+    \newblock {\em man valgrind }
+
+    
+  \beamertemplatearticlebibitems
+
+  \beamertemplatearticlebibitems
+  \bibitem{Valgrind site}
+    2000-2009 Valgrind Developers
+    \newblock Valgrind website
+    \newblock \htmladdnormallink{http://valgrind.org}{http://valgrind.org}
+
+  \end{thebibliography}
+\end{frame}
+
+\end{document}
